@@ -1,5 +1,5 @@
 import 'package:batalha_naval/tipos/navios/navio.dart';
 
 class ContraTorpedeiro extends Navio {
-  ContraTorpedeiro() : super(tamanho: 3);
+  ContraTorpedeiro() : super(tamanho: 3, caracterRepresentador: '3');
 }

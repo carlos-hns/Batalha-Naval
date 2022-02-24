@@ -6,19 +6,38 @@ import 'package:batalha_naval/tipos/tabuleiro/navio_tabuleiro.dart';
 class Tabuleiro {
   late int limiteVertical;
   late int limiteHorizontal;
-  late List<NavioTabuleiro> navios = [];
+  late List<NavioTabuleiro> navios;
 
   Tabuleiro({
     required this.limiteHorizontal,
     required this.limiteVertical,
-    //List<Navio>? navios,
-  }); //: this.navios = navios ?? [];
+    List<NavioTabuleiro>? navios,
+  }) : this.navios = navios ?? [];
+
+  List<List<String>> gerarTabuleiro() {
+    final tabuleiro = this._gerarTabuleiroVaio();
+
+    this.navios.forEach((navio) {
+      // Alterar aqui depois
+      navio.eixo == Eixo.Vertical ? _desenharNavioVertical(tabuleiro, navio) : _desenharNavioVertical(tabuleiro, navio);
+    });
+
+    return tabuleiro;
+  }
 
   List<List<String>> _gerarTabuleiroVaio() {
     return List.generate(this.limiteVertical, (_) => List.generate(this.limiteHorizontal, (index) => '0'));
   }
 
-  //List<List<String>> _desenharTabuleiro() {}
+  void _desenharNavioVertical(List<List<String>> tabuleiro, NavioTabuleiro navio) {
+    final coordenadas = List.generate(navio.posicaoFinalY - navio.y, (coordenadaY) => [navio.x, coordenadaY]);
+
+    coordenadas.forEach((coordenada) {
+      int coordenadaX = coordenada[0];
+      int coordenadaY = coordenada[1];
+      tabuleiro[coordenadaX][coordenadaY] = navio.navio.caracterRepresentador;
+    });
+  }
 
   bool inserirNavio(NavioTabuleiro navio) {
     final navioEstaDentroDosLimites = navio.eixo == Eixo.Vertical
@@ -30,7 +49,7 @@ class Tabuleiro {
 
     //print("Ja existe: ${this.existeOutroNavioNaPosicao(navio)}\n");
 
-    if (navioEstaDentroDosLimites && !this.existeOutroNavioNaPosicao(navio)) {
+    if (navioEstaDentroDosLimites && !this._existeOutroNavioNaPosicao(navio)) {
       this.navios.add(navio);
       return true;
     }
@@ -48,7 +67,7 @@ class Tabuleiro {
     return tamanhoReal > 0 && tamanhoReal < this.limiteHorizontal;
   }
 
-  bool existeOutroNavioNaPosicao(NavioTabuleiro navioAInserir) {
+  bool _existeOutroNavioNaPosicao(NavioTabuleiro navioAInserir) {
     final naviosComConflito = this.navios.where((navioJaInserido) {
       // print("X Inserir: ${navioAInserir.x}");
       // print("X Ja: ${navioJaInserido.x}");
@@ -67,7 +86,6 @@ class Tabuleiro {
           (navioAInserir.y >= navioJaInserido.y && navioAInserir.posicaoFinalY <= navioJaInserido.posicaoFinalY);
     }).toList();
 
-    //print(naviosComConflito);
     return naviosComConflito.length >= 1;
   }
 
