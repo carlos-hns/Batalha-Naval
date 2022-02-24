@@ -1,4 +1,7 @@
-import 'package:batalha_naval/regras/board.dart';
+import 'package:batalha_naval/tipos/eixo.dart';
+import 'package:batalha_naval/tipos/navios/submarino.dart';
+import 'package:batalha_naval/tipos/tabuleiro/navio_tabuleiro.dart';
+import 'package:batalha_naval/tipos/tabuleiro/tabuleiro.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 main() {
@@ -17,7 +20,7 @@ main() {
         x: 0,
         y: 0,
         eixo: Eixo.Vertical,
-        navio: Navio(tamanho: 2),
+        navio: Submarino(),
       ));
 
       expect(tabuleiro.navios.length, 1);
@@ -28,14 +31,14 @@ main() {
         x: 0,
         y: 0,
         eixo: Eixo.Vertical,
-        navio: Navio(tamanho: 2),
+        navio: Submarino(),
       ));
 
       tabuleiro.inserirNavio(NavioTabuleiro(
         x: 0,
         y: 0,
         eixo: Eixo.Vertical,
-        navio: Navio(tamanho: 2),
+        navio: Submarino(),
       ));
 
       expect(tabuleiro.navios.length, 1);

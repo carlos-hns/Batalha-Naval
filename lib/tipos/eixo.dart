@@ -1,0 +1,4 @@
+enum Eixo {
+  Vertical,
+  Horizontal,
+}

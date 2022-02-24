@@ -1,30 +1,7 @@
 import 'dart:io';
 
-enum Eixo {
-  Vertical,
-  Horizontal,
-}
-
-/* abstract */ class Navio {
-  late int tamanho;
-  Navio({required this.tamanho});
-}
-
-class NavioTabuleiro {
-  int x, y;
-  Eixo eixo;
-  Navio navio;
-
-  NavioTabuleiro({
-    required this.x,
-    required this.y,
-    required this.eixo,
-    required this.navio,
-  });
-
-  int get posicaoFinalX => this.x + this.navio.tamanho;
-  int get posicaoFinalY => this.y + this.navio.tamanho;
-}
+import 'package:batalha_naval/tipos/eixo.dart';
+import 'package:batalha_naval/tipos/tabuleiro/navio_tabuleiro.dart';
 
 class Tabuleiro {
   late int limiteVertical;
@@ -107,13 +84,4 @@ class Tabuleiro {
     }
     stdout.write("\n");
   }
-}
-
-main() {
-  // , navios: [
-  //   Navio(eixo: Eixo.Vertical, tamanho: 3),
-  //   Navio(eixo: Eixo.Horizontal, tamanho: 4),
-  // ]
-
-  Tabuleiro(limiteHorizontal: 6, limiteVertical: 5)..imprimirTabuleiro();
 }
