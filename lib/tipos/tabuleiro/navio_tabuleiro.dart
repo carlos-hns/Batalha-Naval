@@ -4,6 +4,12 @@ import 'package:batalha_naval/tipos/navios/navio.dart';
 /// Provavelmente vamos precisar usar um caracter pra representar o navio
 class NavioTabuleiro {
   int x, y;
+
+  /// Se você passar o eixo como Vertical a coordenada em X servirá apenas como constante.
+  /// Se você passar o eixo como Horizontal a coordenada Y servirá apenas como constante.
+  ///
+  /// Em ambos os casos a variação é dada pelo termo que não é constante e o navio será
+  /// mostrado no eixo escolhido a partir do termo que variante.
   Eixo eixo;
   Navio navio;
 

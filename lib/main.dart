@@ -55,8 +55,20 @@
 //   }
 // }
 
+import 'package:batalha_naval/tipos/eixo.dart';
+import 'package:batalha_naval/tipos/navios/submarino.dart';
+import 'package:batalha_naval/tipos/tabuleiro/navio_tabuleiro.dart';
 import 'package:batalha_naval/tipos/tabuleiro/tabuleiro.dart';
+import 'package:batalha_naval/utilidades/matriz_helper.dart';
 
 main() {
-  Tabuleiro(limiteHorizontal: 6, limiteVertical: 5)..imprimirTabuleiro();
+  final tabuleiro = Tabuleiro(limiteHorizontal: 6, limiteVertical: 5);
+  tabuleiro.inserirNavio(NavioTabuleiro(
+    x: 0,
+    y: 1,
+    eixo: Eixo.Horizontal,
+    navio: Submarino(),
+  ));
+
+  MatrizHelper().imprimirMatriz(tabuleiro.gerarTabuleiro());
 }

@@ -1,4 +1,4 @@
-import 'package:batalha_naval/tipos/tabuleiro/tabuleiro.dart';
+import 'dart:io';
 
 class MatrizHelper<T> {
   int verificarQuantidadeDeElementos(List<List<T>> matriz, bool Function(T) matcher) {
@@ -13,5 +13,18 @@ class MatrizHelper<T> {
     }
 
     return quantidadeDeElementos;
+  }
+
+  void imprimirMatriz(List<List<T>> matriz) {
+    stdout.write("\n");
+
+    for (int i = 0; i < matriz.length; i++) {
+      for (int j = 0; j < matriz[i].length; j++) {
+        stdout.write("${matriz[i][j]} ");
+      }
+      stdout.write("\n");
+    }
+
+    stdout.write("\n");
   }
 }

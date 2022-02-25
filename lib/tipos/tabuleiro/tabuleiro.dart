@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:batalha_naval/tipos/eixo.dart';
 import 'package:batalha_naval/tipos/tabuleiro/navio_tabuleiro.dart';
 
@@ -18,11 +16,25 @@ class Tabuleiro {
     final tabuleiro = this._gerarTabuleiroVaio();
 
     this.navios.forEach((navio) {
-      // Alterar aqui depois
-      navio.eixo == Eixo.Vertical ? _desenharNavioVertical(tabuleiro, navio) : _desenharNavioVertical(tabuleiro, navio);
+      navio.eixo == Eixo.Vertical
+          ? _desenharNavioVertical(tabuleiro, navio)
+          : _desenharNavioHorizontal(tabuleiro, navio);
     });
 
     return tabuleiro;
+  }
+
+  bool inserirNavio(NavioTabuleiro navio) {
+    final navioEstaDentroDosLimites = navio.eixo == Eixo.Vertical
+        ? this._navioEstaDentroDoLimiteVertical(navio)
+        : this._navioEstaDentroDoLimiteHorizontal(navio);
+
+    if (navioEstaDentroDosLimites && !this._existeOutroNavioNaPosicao(navio)) {
+      this.navios.add(navio);
+      return true;
+    }
+
+    return false;
   }
 
   List<List<String>> _gerarTabuleiroVaio() {
@@ -30,7 +42,7 @@ class Tabuleiro {
   }
 
   void _desenharNavioVertical(List<List<String>> tabuleiro, NavioTabuleiro navio) {
-    final coordenadas = List.generate(navio.posicaoFinalY - navio.y, (coordenadaY) => [navio.x, coordenadaY]);
+    final coordenadas = List.generate(navio.posicaoFinalY - navio.y, (variacao) => [variacao + navio.y, navio.x]);
 
     coordenadas.forEach((coordenada) {
       int coordenadaX = coordenada[0];
@@ -39,22 +51,14 @@ class Tabuleiro {
     });
   }
 
-  bool inserirNavio(NavioTabuleiro navio) {
-    final navioEstaDentroDosLimites = navio.eixo == Eixo.Vertical
-        ? this._navioEstaDentroDoLimiteVertical(navio)
-        : this._navioEstaDentroDoLimiteHorizontal(navio);
+  void _desenharNavioHorizontal(List<List<String>> tabuleiro, NavioTabuleiro navio) {
+    final coordenadas = List.generate(navio.posicaoFinalX - navio.x, (variacao) => [navio.y, navio.x + variacao]);
 
-    //print(navioEstaDentroDosLimites);
-    //print(!this.existeOutroNavioNaPosicao(navio));
-
-    //print("Ja existe: ${this.existeOutroNavioNaPosicao(navio)}\n");
-
-    if (navioEstaDentroDosLimites && !this._existeOutroNavioNaPosicao(navio)) {
-      this.navios.add(navio);
-      return true;
-    }
-
-    return false;
+    coordenadas.forEach((coordenada) {
+      int coordenadaX = coordenada[0];
+      int coordenadaY = coordenada[1];
+      tabuleiro[coordenadaX][coordenadaY] = navio.navio.caracterRepresentador;
+    });
   }
 
   bool _navioEstaDentroDoLimiteVertical(NavioTabuleiro navioTabuleiro) {
@@ -69,37 +73,10 @@ class Tabuleiro {
 
   bool _existeOutroNavioNaPosicao(NavioTabuleiro navioAInserir) {
     final naviosComConflito = this.navios.where((navioJaInserido) {
-      // print("X Inserir: ${navioAInserir.x}");
-      // print("X Ja: ${navioJaInserido.x}");
-      // print("X Inserir Final: ${navioJaInserido.posicaoFinalX}");
-      // print("X Ja Final: ${navioJaInserido.posicaoFinalX}\n");
-
-      // print("Y Inserir: ${navioAInserir.y}");
-      // print("Y Ja: ${navioJaInserido.y}");
-      // print("Y Inserir Final: ${navioJaInserido.posicaoFinalY}");
-      // print("Y Ja Final: ${navioJaInserido.posicaoFinalY}\n");
-
-      // print((navioAInserir.x >= navioJaInserido.x && navioAInserir.posicaoFinalX <= navioJaInserido.posicaoFinalX));
-      // print((navioAInserir.y >= navioJaInserido.y && navioAInserir.posicaoFinalY <= navioJaInserido.posicaoFinalY));
-
       return (navioAInserir.x >= navioJaInserido.x && navioAInserir.posicaoFinalX <= navioJaInserido.posicaoFinalX) ||
           (navioAInserir.y >= navioJaInserido.y && navioAInserir.posicaoFinalY <= navioJaInserido.posicaoFinalY);
     }).toList();
 
     return naviosComConflito.length >= 1;
-  }
-
-  void imprimirTabuleiro() {
-    final tabuleiro = this._gerarTabuleiroVaio();
-
-    stdout.write("\n");
-
-    for (int i = 0; i < limiteVertical; i++) {
-      for (int j = 0; j < limiteHorizontal; j++) {
-        stdout.write(tabuleiro[i][j] + " ");
-      }
-      stdout.write("\n");
-    }
-    stdout.write("\n");
   }
 }

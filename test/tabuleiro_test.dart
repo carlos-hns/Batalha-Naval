@@ -2,9 +2,8 @@ import 'package:batalha_naval/tipos/eixo.dart';
 import 'package:batalha_naval/tipos/navios/submarino.dart';
 import 'package:batalha_naval/tipos/tabuleiro/navio_tabuleiro.dart';
 import 'package:batalha_naval/tipos/tabuleiro/tabuleiro.dart';
+import 'package:batalha_naval/utilidades/matriz_helper.dart';
 import 'package:flutter_test/flutter_test.dart';
-
-import 'helpers/matriz_helper.dart';
 
 main() {
   late Tabuleiro tabuleiro;
