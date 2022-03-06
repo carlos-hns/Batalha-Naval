@@ -65,7 +65,14 @@ main() {
   final tabuleiro = Tabuleiro(limiteHorizontal: 6, limiteVertical: 5);
   tabuleiro.inserirNavio(NavioTabuleiro(
     x: 0,
-    y: 1,
+    y: 0,
+    eixo: Eixo.Horizontal,
+    navio: Submarino(),
+  ));
+
+  tabuleiro.inserirNavio(NavioTabuleiro(
+    x: 1,
+    y: 0,
     eixo: Eixo.Horizontal,
     navio: Submarino(),
   ));

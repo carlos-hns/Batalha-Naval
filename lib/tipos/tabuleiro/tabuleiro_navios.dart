@@ -1,12 +1,12 @@
 import 'package:batalha_naval/tipos/eixo.dart';
 import 'package:batalha_naval/tipos/tabuleiro/navio_tabuleiro.dart';
 
-class Tabuleiro {
+class TabuleiroNavios {
   late int limiteVertical;
   late int limiteHorizontal;
   late List<NavioTabuleiro> navios;
 
-  Tabuleiro({
+  TabuleiroNavios({
     required this.limiteHorizontal,
     required this.limiteVertical,
     List<NavioTabuleiro>? navios,
@@ -73,10 +73,12 @@ class Tabuleiro {
 
   bool _existeOutroNavioNaPosicao(NavioTabuleiro navioAInserir) {
     final naviosComConflito = this.navios.where((navioJaInserido) {
-      return (navioAInserir.x >= navioJaInserido.x && navioAInserir.posicaoFinalX <= navioJaInserido.posicaoFinalX) ||
-          (navioAInserir.y >= navioJaInserido.y && navioAInserir.posicaoFinalY <= navioJaInserido.posicaoFinalY);
+      final pontosNavioJaInserido = navioJaInserido.pontos;
+      final pontosNavioAInserir = navioAInserir.pontos;
+
+      return pontosNavioAInserir.where((ponto) => pontosNavioJaInserido.contains(ponto)).isNotEmpty;
     }).toList();
 
-    return naviosComConflito.length >= 1;
+    return naviosComConflito.isNotEmpty;
   }
 }

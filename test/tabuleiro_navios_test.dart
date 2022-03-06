@@ -1,15 +1,15 @@
 import 'package:batalha_naval/tipos/eixo.dart';
 import 'package:batalha_naval/tipos/navios/submarino.dart';
 import 'package:batalha_naval/tipos/tabuleiro/navio_tabuleiro.dart';
-import 'package:batalha_naval/tipos/tabuleiro/tabuleiro.dart';
+import 'package:batalha_naval/tipos/tabuleiro/tabuleiro_navios.dart';
 import 'package:batalha_naval/utilidades/matriz_helper.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 main() {
-  late Tabuleiro tabuleiro;
+  late TabuleiroNavios tabuleiro;
 
   setUp(() {
-    tabuleiro = Tabuleiro(
+    tabuleiro = TabuleiroNavios(
       limiteHorizontal: 5,
       limiteVertical: 5,
     );
@@ -37,6 +37,24 @@ main() {
       expect(tabuleiro.navios.length, 1);
     });
 
+    test("Dois návios adcionados com sucesso (Quantidade de navios)", () {
+      tabuleiro.inserirNavio(NavioTabuleiro(
+        x: 0,
+        y: 0,
+        eixo: Eixo.Vertical,
+        navio: Submarino(),
+      ));
+
+      tabuleiro.inserirNavio(NavioTabuleiro(
+        x: 2,
+        y: 0,
+        eixo: Eixo.Vertical,
+        navio: Submarino(),
+      ));
+
+      expect(tabuleiro.navios.length, 2);
+    });
+
     test("Navio adcionado com sucesso (Tabuleiro gerado com Submarino)", () {
       final navio = NavioTabuleiro(
         x: 0,
@@ -54,11 +72,29 @@ main() {
       expect(quantidadeDePedacosSubmarino, navio.navio.tamanho);
     });
 
-    test("Adição bloqueada, já existe navio no local", () {
+    test("Adição bloqueada, já existe navio no local 1", () {
       tabuleiro.inserirNavio(NavioTabuleiro(
         x: 0,
         y: 0,
         eixo: Eixo.Vertical,
+        navio: Submarino(),
+      ));
+
+      tabuleiro.inserirNavio(NavioTabuleiro(
+        x: 0,
+        y: 0,
+        eixo: Eixo.Vertical,
+        navio: Submarino(),
+      ));
+
+      expect(tabuleiro.navios.length, 1);
+    });
+
+    test("Adição bloqueada, já existe navio no local 2", () {
+      tabuleiro.inserirNavio(NavioTabuleiro(
+        x: 0,
+        y: 0,
+        eixo: Eixo.Horizontal,
         navio: Submarino(),
       ));
 

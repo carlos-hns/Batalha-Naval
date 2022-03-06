@@ -1,7 +1,7 @@
+import 'package:batalha_naval/tipos/coordenada.dart';
 import 'package:batalha_naval/tipos/eixo.dart';
 import 'package:batalha_naval/tipos/navios/navio.dart';
 
-/// Provavelmente vamos precisar usar um caracter pra representar o navio
 class NavioTabuleiro {
   int x, y;
 
@@ -13,6 +13,11 @@ class NavioTabuleiro {
   Eixo eixo;
   Navio navio;
 
+  int get posicaoFinalX => this.x + this.navio.tamanho;
+  int get posicaoFinalY => this.y + this.navio.tamanho;
+
+  List<Coordenada> get pontos => this._getCoordenadas();
+
   NavioTabuleiro({
     required this.x,
     required this.y,
@@ -20,6 +25,16 @@ class NavioTabuleiro {
     required this.navio,
   });
 
-  int get posicaoFinalX => this.x + this.navio.tamanho;
-  int get posicaoFinalY => this.y + this.navio.tamanho;
+  List<Coordenada> _getCoordenadas() {
+    if (this.eixo == Eixo.Horizontal) {
+      return List.generate(this.navio.tamanho, (index) => Coordenada(x: index, y: this.y));
+    }
+
+    return List.generate(this.navio.tamanho, (index) => Coordenada(x: this.x, y: index));
+  }
+
+  @override
+  String toString() {
+    return "(${this.x}, ${this.y}) - (${this.posicaoFinalX}, ${this.posicaoFinalY}) - ${this.eixo.name}";
+  }
 }
