@@ -58,11 +58,12 @@
 import 'package:batalha_naval/tipos/eixo.dart';
 import 'package:batalha_naval/tipos/navios/submarino.dart';
 import 'package:batalha_naval/tipos/tabuleiro/navio_tabuleiro.dart';
-import 'package:batalha_naval/tipos/tabuleiro/tabuleiro.dart';
+import 'package:batalha_naval/tipos/tabuleiro/tabuleiro_navios.dart';
 import 'package:batalha_naval/utilidades/matriz_helper.dart';
 
 main() {
-  final tabuleiro = Tabuleiro(limiteHorizontal: 6, limiteVertical: 5);
+  final tabuleiro = TabuleiroNavios(limiteHorizontal: 6, limiteVertical: 5);
+
   tabuleiro.inserirNavio(NavioTabuleiro(
     x: 0,
     y: 0,
@@ -71,9 +72,9 @@ main() {
   ));
 
   tabuleiro.inserirNavio(NavioTabuleiro(
-    x: 1,
+    x: 0,
     y: 0,
-    eixo: Eixo.Horizontal,
+    eixo: Eixo.Vertical,
     navio: Submarino(),
   ));
 
