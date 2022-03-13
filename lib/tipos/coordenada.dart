@@ -4,4 +4,9 @@ class Coordenada {
 
   @override
   bool operator ==(o) => o is Coordenada && this.x == o.x && this.y == o.y;
+
+  @override
+  String toString() {
+    return "(${this.x}, ${this.y})";
+  }
 }

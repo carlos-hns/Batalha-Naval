@@ -63,12 +63,12 @@ class TabuleiroNavios {
 
   bool _navioEstaDentroDoLimiteVertical(NavioTabuleiro navioTabuleiro) {
     final tamanhoReal = navioTabuleiro.y + navioTabuleiro.navio.tamanho;
-    return tamanhoReal > 0 && tamanhoReal < this.limiteVertical;
+    return tamanhoReal > 0 && tamanhoReal <= this.limiteVertical;
   }
 
   bool _navioEstaDentroDoLimiteHorizontal(NavioTabuleiro navioTabuleiro) {
     final tamanhoReal = navioTabuleiro.x + navioTabuleiro.navio.tamanho;
-    return tamanhoReal > 0 && tamanhoReal < this.limiteHorizontal;
+    return tamanhoReal > 0 && tamanhoReal <= this.limiteHorizontal;
   }
 
   bool _existeOutroNavioNaPosicao(NavioTabuleiro navioAInserir) {

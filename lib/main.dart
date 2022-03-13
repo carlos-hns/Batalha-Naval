@@ -59,24 +59,46 @@ import 'package:batalha_naval/tipos/eixo.dart';
 import 'package:batalha_naval/tipos/navios/submarino.dart';
 import 'package:batalha_naval/tipos/tabuleiro/navio_tabuleiro.dart';
 import 'package:batalha_naval/tipos/tabuleiro/tabuleiro_navios.dart';
+import 'package:batalha_naval/tipos/tabuleiro/tabuleiro_tiros.dart';
+import 'package:batalha_naval/tipos/tabuleiro/tiro_tabuleiro.dart';
+import 'package:batalha_naval/tipos/tiros/tiro_especial.dart';
+import 'package:batalha_naval/tipos/tiros/tiro_normal.dart';
 import 'package:batalha_naval/utilidades/matriz_helper.dart';
 
 main() {
-  final tabuleiro = TabuleiroNavios(limiteHorizontal: 6, limiteVertical: 5);
+  final tabuleiroNavio = TabuleiroNavios(limiteHorizontal: 6, limiteVertical: 5);
 
-  tabuleiro.inserirNavio(NavioTabuleiro(
+  tabuleiroNavio.inserirNavio(NavioTabuleiro(
     x: 0,
     y: 0,
     eixo: Eixo.Horizontal,
     navio: Submarino(),
   ));
 
-  tabuleiro.inserirNavio(NavioTabuleiro(
-    x: 0,
-    y: 0,
+  tabuleiroNavio.inserirNavio(NavioTabuleiro(
+    x: 5,
+    y: 3,
     eixo: Eixo.Vertical,
     navio: Submarino(),
   ));
 
-  MatrizHelper().imprimirMatriz(tabuleiro.gerarTabuleiro());
+  MatrizHelper().imprimirMatriz(tabuleiroNavio.gerarTabuleiro());
+
+  final tabuleiroTiro = TabuleiroTiros(limiteHorizontal: 6, limiteVertical: 5);
+
+  tabuleiroTiro.inserirTiro(TiroTabuleiro(
+    x: 5,
+    y: 4,
+    tiro: TiroNormal(),
+  ));
+
+  tabuleiroTiro.inserirTiro(TiroTabuleiro(
+    x: 1,
+    y: 1,
+    tiro: TiroEspecial(),
+  ));
+
+  print(tabuleiroTiro.tiros.length);
+
+  MatrizHelper().imprimirMatriz(tabuleiroTiro.gerarTabuleiro());
 }

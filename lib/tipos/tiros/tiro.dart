@@ -1,9 +1,9 @@
 abstract class Tiro {
   late String caracterRepresentador;
-  late int tamanhoAoRedorDoCentro;
+  late int raioDeTiro;
 
   Tiro({
     required this.caracterRepresentador,
-    required this.tamanhoAoRedorDoCentro,
+    required this.raioDeTiro,
   });
 }
