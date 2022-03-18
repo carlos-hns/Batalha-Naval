@@ -15,20 +15,22 @@ class BatalhaBoard extends StatelessWidget {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
-      children: List.generate(x, (index) => this._createRow()),
+      children: List.generate(x, (currentX) => this._createRow(currentX)),
     );
   }
 
-  Row _createRow() {
+  Row _createRow(int currentX) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
-      children: List.generate(y, (index) => this._createElement()),
+      children: List.generate(y, (currentY) => this._createElement(currentX, currentY)),
     );
   }
 
-  Widget _createElement() {
+  Widget _createElement(int currentX, int currentY) {
     return GestureDetector(
-      onTap: () {}, // TODO: MAKE IT AFTER
+      onTap: () {
+        print("X: ${currentY}, Y: ${currentX}");
+      },
       child: Padding(
         padding: EdgeInsets.all(5.0),
         child: Container(
