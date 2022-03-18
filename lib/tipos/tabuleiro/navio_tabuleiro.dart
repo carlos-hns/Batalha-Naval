@@ -13,8 +13,8 @@ class NavioTabuleiro {
   Eixo eixo;
   Navio navio;
 
-  int get posicaoFinalX => this.x + this.navio.tamanho;
-  int get posicaoFinalY => this.y + this.navio.tamanho;
+  int get posicaoFinalX => eixo == Eixo.Horizontal ? this.x : this.x + this.navio.tamanho;
+  int get posicaoFinalY => eixo == Eixo.Vertical ? this.y : this.y + this.navio.tamanho;
 
   List<Coordenada> get pontos => this._getCoordenadas();
 

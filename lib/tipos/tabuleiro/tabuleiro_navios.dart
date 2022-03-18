@@ -16,7 +16,7 @@ class TabuleiroNavios {
     final tabuleiro = this._gerarTabuleiroVazio();
 
     this.navios.forEach((navio) {
-      navio.eixo == Eixo.Vertical
+      navio.eixo == Eixo.Horizontal
           ? _desenharNavioVertical(tabuleiro, navio)
           : _desenharNavioHorizontal(tabuleiro, navio);
     });
@@ -31,6 +31,8 @@ class TabuleiroNavios {
 
     if (navioEstaDentroDosLimites && !this._existeOutroNavioNaPosicao(navio)) {
       this.navios.add(navio);
+      print(navio.eixo);
+      print((navio.pontos).toList());
       print("NAVIO INSERIDO!!!");
       return true;
     }
@@ -46,8 +48,8 @@ class TabuleiroNavios {
     final coordenadas = List.generate(navio.posicaoFinalY - navio.y, (variacao) => [variacao + navio.y, navio.x]);
 
     coordenadas.forEach((coordenada) {
-      int coordenadaX = coordenada[0];
-      int coordenadaY = coordenada[1];
+      int coordenadaX = coordenada[1];
+      int coordenadaY = coordenada[0];
       tabuleiro[coordenadaX][coordenadaY] = navio.navio.caracterRepresentador;
     });
   }
@@ -56,19 +58,19 @@ class TabuleiroNavios {
     final coordenadas = List.generate(navio.posicaoFinalX - navio.x, (variacao) => [navio.y, navio.x + variacao]);
 
     coordenadas.forEach((coordenada) {
-      int coordenadaX = coordenada[0];
-      int coordenadaY = coordenada[1];
+      int coordenadaX = coordenada[1];
+      int coordenadaY = coordenada[0];
       tabuleiro[coordenadaX][coordenadaY] = navio.navio.caracterRepresentador;
     });
   }
 
   bool _navioEstaDentroDoLimiteVertical(NavioTabuleiro navioTabuleiro) {
-    final tamanhoReal = navioTabuleiro.y + navioTabuleiro.navio.tamanho;
+    final tamanhoReal = navioTabuleiro.x + navioTabuleiro.navio.tamanho;
     return tamanhoReal > 0 && tamanhoReal <= this.limiteVertical;
   }
 
   bool _navioEstaDentroDoLimiteHorizontal(NavioTabuleiro navioTabuleiro) {
-    final tamanhoReal = navioTabuleiro.x + navioTabuleiro.navio.tamanho;
+    final tamanhoReal = navioTabuleiro.y + navioTabuleiro.navio.tamanho;
     return tamanhoReal > 0 && tamanhoReal <= this.limiteHorizontal;
   }
 
@@ -77,10 +79,10 @@ class TabuleiroNavios {
       final pontosNavioJaInserido = navioJaInserido.pontos;
       final pontosNavioAInserir = navioAInserir.pontos;
 
-      print("pontos navio a inserir: ");
-      print((navioAInserir.pontos).toList());
-      print("pontos navio ja inserido: ");
-      print((navioJaInserido.pontos).toList());
+      // print("pontos navio a inserir: ");
+      // print((navioAInserir.pontos).toList());
+      // print("pontos navio ja inserido: ");
+      // print((navioJaInserido.pontos).toList());
       return pontosNavioAInserir.where((ponto) => pontosNavioJaInserido.contains(ponto)).isNotEmpty;
     }).toList();
 

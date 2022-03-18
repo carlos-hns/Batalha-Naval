@@ -64,30 +64,43 @@ import 'package:batalha_naval/tipos/tabuleiro/tiro_tabuleiro.dart';
 import 'package:batalha_naval/tipos/tiros/tiro_especial.dart';
 import 'package:batalha_naval/tipos/tiros/tiro_normal.dart';
 import 'package:batalha_naval/utilidades/matriz_helper.dart';
-
+import 'dart:io';
 import 'entidades/maquina.dart';
 
 main() {
-  final tabuleiroNavio = TabuleiroNavios(limiteHorizontal: 6, limiteVertical: 5);
+  // final tabuleiroNavio = TabuleiroNavios(limiteHorizontal: 6, limiteVertical: 5);
 
-  tabuleiroNavio.inserirNavio(NavioTabuleiro(
-    x: 0,
-    y: 0,
-    eixo: Eixo.Horizontal,
-    navio: Submarino(),
-  ));
+  // tabuleiroNavio.inserirNavio(NavioTabuleiro(
+  //   x: 0,
+  //   y: 0,
+  //   eixo: Eixo.Horizontal,
+  //   navio: Submarino(),
+  // ));
 
-  tabuleiroNavio.inserirNavio(NavioTabuleiro(
-    x: 5,
-    y: 4,
-    eixo: Eixo.Vertical,
-    navio: Submarino(),
-  ));
+  // tabuleiroNavio.inserirNavio(NavioTabuleiro(
+  //   x: 5,
+  //   y: 4,
+  //   eixo: Eixo.Vertical,
+  //   navio: Submarino(),
+  // ));
 
   final tabuleiroMaquina = Maquina().geraTabuleiroMaquina(15, 15);
 
   //MatrizHelper().imprimirMatriz(tabuleiroNavio.gerarTabuleiro());
-  MatrizHelper().imprimirMatriz(tabuleiroMaquina.gerarTabuleiro());
+  //MatrizHelper().imprimirMatriz(tabuleiroMaquina.gerarTabuleiro());
+  final List<List<String>> matriz = tabuleiroMaquina.gerarTabuleiro();
+
+  stdout.write("\n");
+
+  for (int j = 0; j < matriz.length; j++) {
+    for (int i = 0; i < matriz[j].length; i++) {
+      stdout.write("${matriz[i][j]} ");
+    }
+    stdout.write("\n");
+  }
+
+  stdout.write("\n");
+
   final tabuleiroTiro = TabuleiroTiros(limiteHorizontal: 6, limiteVertical: 5);
 
   tabuleiroTiro.inserirTiro(TiroTabuleiro(
