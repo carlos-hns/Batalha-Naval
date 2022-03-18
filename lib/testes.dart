@@ -65,6 +65,8 @@ import 'package:batalha_naval/tipos/tiros/tiro_especial.dart';
 import 'package:batalha_naval/tipos/tiros/tiro_normal.dart';
 import 'package:batalha_naval/utilidades/matriz_helper.dart';
 
+import 'entidades/maquina.dart';
+
 main() {
   final tabuleiroNavio = TabuleiroNavios(limiteHorizontal: 6, limiteVertical: 5);
 
@@ -77,13 +79,15 @@ main() {
 
   tabuleiroNavio.inserirNavio(NavioTabuleiro(
     x: 5,
-    y: 3,
+    y: 4,
     eixo: Eixo.Vertical,
     navio: Submarino(),
   ));
 
-  MatrizHelper().imprimirMatriz(tabuleiroNavio.gerarTabuleiro());
+  final tabuleiroMaquina = Maquina().geraTabuleiroMaquina(15, 15);
 
+  //MatrizHelper().imprimirMatriz(tabuleiroNavio.gerarTabuleiro());
+  MatrizHelper().imprimirMatriz(tabuleiroMaquina.gerarTabuleiro());
   final tabuleiroTiro = TabuleiroTiros(limiteHorizontal: 6, limiteVertical: 5);
 
   tabuleiroTiro.inserirTiro(TiroTabuleiro(

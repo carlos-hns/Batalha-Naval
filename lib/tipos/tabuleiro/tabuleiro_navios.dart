@@ -13,7 +13,7 @@ class TabuleiroNavios {
   }) : this.navios = navios ?? [];
 
   List<List<String>> gerarTabuleiro() {
-    final tabuleiro = this._gerarTabuleiroVaio();
+    final tabuleiro = this._gerarTabuleiroVazio();
 
     this.navios.forEach((navio) {
       navio.eixo == Eixo.Vertical
@@ -31,13 +31,14 @@ class TabuleiroNavios {
 
     if (navioEstaDentroDosLimites && !this._existeOutroNavioNaPosicao(navio)) {
       this.navios.add(navio);
+      print("NAVIO INSERIDO!!!");
       return true;
     }
 
     return false;
   }
 
-  List<List<String>> _gerarTabuleiroVaio() {
+  List<List<String>> _gerarTabuleiroVazio() {
     return List.generate(this.limiteVertical, (_) => List.generate(this.limiteHorizontal, (index) => '0'));
   }
 
@@ -76,6 +77,10 @@ class TabuleiroNavios {
       final pontosNavioJaInserido = navioJaInserido.pontos;
       final pontosNavioAInserir = navioAInserir.pontos;
 
+      print("pontos navio a inserir: ");
+      print((navioAInserir.pontos).toList());
+      print("pontos navio ja inserido: ");
+      print((navioJaInserido.pontos).toList());
       return pontosNavioAInserir.where((ponto) => pontosNavioJaInserido.contains(ponto)).isNotEmpty;
     }).toList();
 
