@@ -87,21 +87,39 @@ main() {
   final tabuleiroMaquina = Maquina().geraTabuleiroMaquina(15, 15);
 
   //MatrizHelper().imprimirMatriz(tabuleiroNavio.gerarTabuleiro());
-  //MatrizHelper().imprimirMatriz(tabuleiroMaquina.gerarTabuleiro());
-  final List<List<String>> matriz = tabuleiroMaquina.gerarTabuleiro();
+  MatrizHelper().imprimirMatriz(tabuleiroMaquina.gerarTabuleiro());
+  // final List<List<String>> matriz = tabuleiroMaquina.gerarTabuleiro();
 
-  stdout.write("\n");
+  // matriz.toString();
 
-  for (int j = 0; j < matriz.length; j++) {
-    for (int i = 0; i < matriz[j].length; i++) {
-      stdout.write("${matriz[i][j]} ");
-    }
-    stdout.write("\n");
-  }
+  stdout.write('\n');
 
-  stdout.write("\n");
+  // for (int j = 0; j < matriz.length; j++) {
+  //   // for (int i = 0; i < matriz[j].length; i++) {
 
-  final tabuleiroTiro = TabuleiroTiros(limiteHorizontal: 6, limiteVertical: 5);
+  //   stdout.write("${matriz[0][j]} ");
+  //   stdout.write("${matriz[1][j]} ");
+  //   stdout.write("${matriz[2][j]} ");
+  //   stdout.write("${matriz[3][j]} ");
+  //   stdout.write("${matriz[4][j]} ");
+  //   stdout.write("${matriz[5][j]} ");
+  //   stdout.write("${matriz[6][j]} ");
+  //   stdout.write("${matriz[7][j]} ");
+  //   stdout.write("${matriz[8][j]} ");
+  //   stdout.write("${matriz[9][j]} ");
+  //   stdout.write("${matriz[10][j]} ");
+  //   stdout.write("${matriz[11][j]} ");
+  //   stdout.write("${matriz[12][j]} ");
+  //   stdout.write("${matriz[13][j]} ");
+  //   stdout.write("${matriz[14][j]} ");
+
+  //   // }
+  //   stdout.write("\n");
+  // }
+
+  // stdout.write("\n");
+
+  final tabuleiroTiro = TabuleiroTiros(limiteHorizontal: 15, limiteVertical: 15);
 
   tabuleiroTiro.inserirTiro(TiroTabuleiro(
     x: 5,
