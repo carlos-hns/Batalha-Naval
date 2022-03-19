@@ -15,8 +15,6 @@ class BatalhaBoard extends StatefulWidget {
 }
 
 class _BatalhaBoardState extends State<BatalhaBoard> {
-  bool _isHover = false;
-
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -29,14 +27,37 @@ class _BatalhaBoardState extends State<BatalhaBoard> {
   Row _createRow(int currentX) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
-      children: List.generate(widget.y, (currentY) => this._createElement(currentX, currentY)),
+      children: List.generate(
+        widget.y,
+        (currentY) => BoardTile(
+          onTap: () {
+            print("X: ${currentX} - Y: ${currentY}");
+          },
+        ),
+      ),
     );
   }
+}
 
-  Widget _createElement(int currentX, int currentY) {
+class BoardTile extends StatefulWidget {
+  late final Function() onTap;
+
+  BoardTile({
+    required this.onTap,
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  State<BoardTile> createState() => _BoardTileState();
+}
+
+class _BoardTileState extends State<BoardTile> {
+  bool _isHover = false;
+
+  @override
+  Widget build(BuildContext context) {
     return MouseRegion(
       onEnter: (_) {
-        print("Teste");
         setState(() {
           this._isHover = true;
         });
@@ -46,16 +67,8 @@ class _BatalhaBoardState extends State<BatalhaBoard> {
           this._isHover = false;
         });
       },
-      // onHover: (event) {
-      //   print(event);
-      //   setState(() {
-      //     this._isHover = true;
-      //   });
-      // },
       child: GestureDetector(
-        onTap: () {
-          print("X: ${currentY}, Y: ${currentX}");
-        },
+        onTap: this.widget.onTap,
         child: Padding(
           padding: EdgeInsets.all(5.0),
           child: AnimatedContainer(
@@ -72,57 +85,3 @@ class _BatalhaBoardState extends State<BatalhaBoard> {
     );
   }
 }
-
-// Deve estar mudando tudo pq o widget está sendo completamente rebuildado quando
-// ativa o mouse region, logo todo o board é reconstruido
-// como a gente tem uma função e não um stateless widdget
-
-// Transformar o container em um widget statefull
-// Retornar o board para stateless
-
-// class PointElement extends StatelessWidget {
-//   const PointElement({
-//     required onEnter,
-//     Key? key,
-//   }) : super(key: key);
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return MouseRegion(
-//       onEnter: (_) {
-//         print("Teste");
-//         setState(() {
-//           this._isHover = true;
-//         });
-//       },
-//       onExit: (_) {
-//         setState(() {
-//           this._isHover = false;
-//         });
-//       },
-//       // onHover: (event) {
-//       //   print(event);
-//       //   setState(() {
-//       //     this._isHover = true;
-//       //   });
-//       // },
-//       child: GestureDetector(
-//         onTap: () {
-//           print("X: ${currentY}, Y: ${currentX}");
-//         },
-//         child: Padding(
-//           padding: EdgeInsets.all(5.0),
-//           child: AnimatedContainer(
-//             duration: Duration(seconds: 1),
-//             height: 25.0,
-//             width: 25.0,
-//             decoration: BoxDecoration(
-//               color: this._isHover ? Colors.blue : Colors.black,
-//               shape: BoxShape.circle,
-//             ),
-//           ),
-//         ),
-//       ),
-//     );
-//   }
-// }
