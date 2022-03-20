@@ -1,3 +1,4 @@
+import 'package:batalha_naval/tipos/coordenada.dart';
 import 'package:batalha_naval/tipos/eixo.dart';
 import 'package:batalha_naval/tipos/tabuleiro/navio_tabuleiro.dart';
 
@@ -24,12 +25,77 @@ class TabuleiroNavios {
     return tabuleiro;
   }
 
+  List<List<String>> gerarTabuleiroComTiros(TabuleiroNavios tabuleiro, List<List<String>> tiros) {
+    List<List<String>> novoTabuleiro = tabuleiro.gerarTabuleiro();
+    for (int i = 0; i < novoTabuleiro.length; i++) {
+      for (int j = 0; j < novoTabuleiro[i].length; j++) {
+        if (tiros[i][j] == "X") {
+          if (novoTabuleiro[i][j] != "0") {
+            novoTabuleiro[i][j] = "V";
+            print("Hum, Acertou miseravi!");
+          } else {
+            novoTabuleiro[i][j] = tiros[i][j];
+          }
+        }
+      }
+    }
+    novoTabuleiro = naviosAfundados(tabuleiro, novoTabuleiro);
+    return novoTabuleiro;
+  }
+
+  List<List<String>> naviosAfundados(TabuleiroNavios tabuleiroOriginal, List<List<String>> novoTabuleiro) {
+    // for (int i = 0; i < tabuleiroOriginal.navios.length; i++) {
+    //   for (var j = 0; j < tabuleiroOriginal.navios[i].pontos.length; j++) {
+    //     if (tabuleiroOriginal.navios[i].pontos == novoTabuleiro[i][j]) {
+    //       print(tabuleiroOriginal.navios[i].pontos);
+    //       print(novoTabuleiro[i][j]);
+    //     }
+    //   }
+    // }
+    final naviosAfundados = tabuleiroOriginal.navios.where((navio) {
+      final pontos = navio.pontos;
+      bool foiAfundado = true;
+      pontos.forEach((ponto) {
+        if (novoTabuleiro[ponto.x][ponto.y] == "V") {
+          foiAfundado = foiAfundado && true;
+        } else {
+          foiAfundado = foiAfundado && false;
+        }
+      });
+      return foiAfundado;
+    }).toList();
+    naviosAfundados.forEach((navio) {
+      navio.pontos.forEach((ponto) {
+        novoTabuleiro[ponto.x][ponto.y] = _tiposNaviosAfundados(navio.navio.caracterRepresentador);
+      });
+    });
+
+    return novoTabuleiro;
+  }
+
+  String _tiposNaviosAfundados(String caractere) {
+    switch (caractere) {
+      case "5":
+        return "P";
+      case "4":
+        return "T";
+      case "3":
+        return "C";
+      case "2":
+        return "S";
+      default:
+        "Z";
+    }
+    return caractere;
+  }
+
   bool inserirNavio(NavioTabuleiro navio) {
     final navioEstaDentroDosLimites = navio.eixo == Eixo.Vertical
         ? this._navioEstaDentroDoLimiteVertical(navio)
         : this._navioEstaDentroDoLimiteHorizontal(navio);
 
     if (navioEstaDentroDosLimites && !this._existeOutroNavioNaPosicao(navio)) {
+      print(navio.pontos);
       this.navios.add(navio);
       return true;
     }
