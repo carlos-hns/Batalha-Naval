@@ -8,7 +8,7 @@
             "type": "dart",
             "request": "launch",
             "name": "Rodando batalha naval",
-            "deviceId": "Edge",
+            "deviceId": "Chrome",
             "args": [
                 "--web-port=5000",
             ],
