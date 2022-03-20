@@ -22,11 +22,11 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: "Batalha Naval",
       debugShowCheckedModeBanner: false,
-      //home: MenuPage(),
-      // home: JogoPage(
-      //   tabuleiroNavios: TabuleiroNavios(limiteHorizontal: 15, limiteVertical: 15),
-      // ),
-      home: PaginaTestes(),
+      // home: MenuPage(),
+      home: JogoPage(
+        tabuleiroNavios: TabuleiroNavios(limiteHorizontal: 15, limiteVertical: 15),
+      ),
+      //home: PaginaTestes(),
     );
   }
 }
