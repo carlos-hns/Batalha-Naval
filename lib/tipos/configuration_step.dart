@@ -1,0 +1,4 @@
+enum ConfigurationStep {
+  Tamanho,
+  Insercao,
+}

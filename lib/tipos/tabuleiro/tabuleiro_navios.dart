@@ -31,9 +31,6 @@ class TabuleiroNavios {
 
     if (navioEstaDentroDosLimites && !this._existeOutroNavioNaPosicao(navio)) {
       this.navios.add(navio);
-      print(navio.eixo);
-      print(navio.pontos);
-      print("NAVIO INSERIDO!!!");
       return true;
     }
 
@@ -79,11 +76,6 @@ class TabuleiroNavios {
       final pontosNavioJaInserido = navioJaInserido.pontos;
       final pontosNavioAInserir = navioAInserir.pontos;
 
-      // print("pontos navio a inserir: ");
-      // print((navioAInserir.pontos).toList());
-      // print("pontos navio ja inserido: ");
-      // print((navioJaInserido.pontos).toList());
-      //final prontosDoNavio = navioAInserir.coordenadasDoNavio();
       return pontosNavioAInserir.where((ponto) => pontosNavioJaInserido.contains(ponto)).isNotEmpty;
     }).toList();
 
