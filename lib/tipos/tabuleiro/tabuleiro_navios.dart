@@ -1,6 +1,5 @@
 import 'package:batalha_naval/tipos/eixo.dart';
 import 'package:batalha_naval/tipos/tabuleiro/navio_tabuleiro.dart';
-import 'package:batalha_naval/utilidades/matriz_helper.dart';
 
 class TabuleiroNavios {
   late int limiteVertical;

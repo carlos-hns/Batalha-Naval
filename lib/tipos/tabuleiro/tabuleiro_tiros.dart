@@ -24,7 +24,8 @@ class TabuleiroTiros {
   }
 
   List<List<String>> gerarTabuleiro() {
-    final tabuleiro = this._gerarTabuleiroVaio();
+    // final tabuleiro = this._gerarTabuleiroVaio();
+    List<List<String>> tabuleiro = _gerarTabuleiroVaio();
 
     tiros.forEach((tiro) {
       tabuleiro[tiro.x][tiro.y] = 'x';

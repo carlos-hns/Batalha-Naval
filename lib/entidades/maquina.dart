@@ -9,7 +9,6 @@ import 'package:batalha_naval/tipos/tabuleiro/tiro_tabuleiro.dart';
 import 'package:batalha_naval/tipos/eixo.dart';
 import 'dart:math';
 
-import 'package:batalha_naval/tipos/tabuleiro/tabuleiro_tiros.dart';
 import 'package:batalha_naval/tipos/tiros/tiro_especial.dart';
 import 'package:batalha_naval/tipos/tiros/tiro_normal.dart';
 
@@ -87,10 +86,10 @@ class Maquina {
 
   TabuleiroTiros geraTabuleiroTiroMaquina(int tamanhoH, int tamanhoV) {
     var tabuleiroTiros = TabuleiroTiros(limiteHorizontal: tamanhoH, limiteVertical: tamanhoV);
-    //tiroNormalMaquina(tabuleiroTiros);
-    //tiroNormalMaquina(tabuleiroTiros);
+    tiroNormalMaquina(tabuleiroTiros);
+    tiroNormalMaquina(tabuleiroTiros);
     tiroEspecialMaquina(tabuleiroTiros);
-    tiroEspecialMaquina(tabuleiroTiros);
+    //tiroEspecialMaquina(tabuleiroTiros);
     return tabuleiroTiros;
   }
 
