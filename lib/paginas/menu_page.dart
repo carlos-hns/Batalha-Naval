@@ -14,7 +14,6 @@ class MenuPage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             this._menuButton("Iniciar Partida", () {
-              print("Teste");
               Navigator.push(
                 context,
                 MaterialPageRoute(

@@ -6,12 +6,14 @@ class ConfigurationElement extends StatelessWidget {
   List<String> options;
   String current;
   Function(String) onChange;
+  double? labelSize;
 
   ConfigurationElement({
     required this.label,
     required this.options,
     required this.current,
     required this.onChange,
+    this.labelSize,
     Key? key,
   }) : super(key: key);
 
@@ -23,6 +25,7 @@ class ConfigurationElement extends StatelessWidget {
           this.label,
           style: TextStyle(
             color: Colors.white,
+            fontSize: this.labelSize ?? 12.0,
           ),
         ),
         SizedBox(

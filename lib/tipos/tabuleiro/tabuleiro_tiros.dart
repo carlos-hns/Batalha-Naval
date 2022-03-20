@@ -15,8 +15,6 @@ class TabuleiroTiros {
   bool inserirTiro(TiroTabuleiro tiro) {
     if (!this._existeLocalExplodido(tiro)) {
       this.tiros.add(tiro);
-      print(tiro.pontos);
-      print(tiro);
       return true;
     }
 

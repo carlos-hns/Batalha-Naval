@@ -1,6 +1,7 @@
 import 'package:batalha_naval/app_colors.dart';
 import 'package:batalha_naval/base/base_view.dart';
 import 'package:batalha_naval/componentes/common/batalha_dialog.dart';
+import 'package:batalha_naval/componentes/configuracoes/configuration_element.dart';
 import 'package:batalha_naval/componentes/tabuleiro/batalha_board.dart';
 import 'package:batalha_naval/tipos/tabuleiro/tabuleiro_navios.dart';
 import 'package:batalha_naval/view_models/jogo_view_model.dart';
@@ -19,7 +20,24 @@ class JogoPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BaseView<JogoViewModel>(
       onInitState: (viewModel) {
+        // TODO: FECHAR STREAMS EM TODAS AS PAGINAS
         viewModel.initCommand(tabuleiroNavios);
+
+        viewModel.adicionarTiroCommand.results
+            .where((event) => event.data != null)
+            .map((result) => result.data)
+            .listen((adicionou) {
+          if (!(adicionou!)) {
+            return showBatalhaDialog(
+              context,
+              "Erro!",
+              "Verifique se você tem tiros especiais disponíveis ou atirou em um local válido.",
+              () {
+                Navigator.pop(context);
+              },
+            );
+          }
+        });
       },
       builder: (context, viewModel) {
         return Scaffold(
@@ -46,7 +64,7 @@ class JogoPage extends StatelessWidget {
                     BatalhaBoard(
                       x: tabuleiroNavios.limiteHorizontal,
                       y: tabuleiroNavios.limiteVertical,
-                      tilesInfo: viewModel.infos(),
+                      tilesInfo: viewModel.infosNavios(),
                       onTapItem: (coordenada) {
                         return showBatalhaDialog(
                           context,
@@ -61,32 +79,38 @@ class JogoPage extends StatelessWidget {
                   ],
                 ),
               ),
-              Expanded(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Text(
-                      "Tabuleiro Maquina",
-                      style: TextStyle(
-                        color: TextColor,
-                        fontSize: 30.0,
-                        fontWeight: FontWeight.bold,
-                      ),
+              ReactiveBuilder(
+                initialData: false,
+                stream: viewModel.adicionarTiroCommand.results.map((result) => result.data!),
+                builder: (context, _) {
+                  return Expanded(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Text(
+                          "Tabuleiro Maquina",
+                          style: TextStyle(
+                            color: TextColor,
+                            fontSize: 30.0,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        SizedBox(
+                          height: 15.0,
+                        ),
+                        BatalhaBoard(
+                          x: tabuleiroNavios.limiteHorizontal,
+                          y: tabuleiroNavios.limiteVertical,
+                          tilesInfo: viewModel.infosTiros(),
+                          onTapItem: (coordenada) {
+                            viewModel.adicionarTiroCommand(coordenada);
+                          },
+                        ),
+                      ],
                     ),
-                    SizedBox(
-                      height: 15.0,
-                    ),
-                    BatalhaBoard(
-                      x: tabuleiroNavios.limiteHorizontal,
-                      y: tabuleiroNavios.limiteVertical,
-                      //tilesInfo: viewModel.infos(),
-                      onTapItem: (coordenada) {
-                        //viewModel.adicionarNavioCommand(coordenada);
-                      },
-                    ),
-                  ],
-                ),
+                  );
+                },
               ),
             ],
           ),
@@ -103,78 +127,110 @@ class JogoPage extends StatelessWidget {
         stream: viewModel.isBusy,
         builder: (context, data) {
           return Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.start,
             mainAxisSize: MainAxisSize.max,
             children: [
+              SizedBox(
+                height: 50.0,
+              ),
               Text(
                 "Submarinos abatidos: 0",
                 style: TextStyle(
                   color: TextColor,
+                  fontSize: 15.0,
                 ),
               ),
               Text(
                 "Contratorpedeiros abatidos: 0",
                 style: TextStyle(
                   color: TextColor,
+                  fontSize: 15.0,
                 ),
               ),
               Text(
                 "Navios Tanque abatidos: 0",
                 style: TextStyle(
                   color: TextColor,
+                  fontSize: 15.0,
                 ),
               ),
               Text(
                 "Porta Aviões abatidos: 0",
                 style: TextStyle(
                   color: TextColor,
+                  fontSize: 15.0,
                 ),
               ),
               SizedBox(
-                height: 10.0,
+                height: 15.0,
               ),
               Text(
-                "Tiros utilizados: 0",
+                "Tiros utilizados: ${viewModel.quantidadeDeTirosNormais}",
                 style: TextStyle(
                   color: TextColor,
+                  fontSize: 15.0,
                 ),
               ),
               Text(
-                "Tiros especiais utilizados: 0",
+                "Tiros especiais disponíveis: ${viewModel.quantidadeDeTirosEspeciaisRestantes}",
                 style: TextStyle(
                   color: TextColor,
+                  fontSize: 15.0,
                 ),
               ),
               SizedBox(
-                height: 50.0,
+                height: 30.0,
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  SingleChildScrollView(
-                    child: Container(
-                      height: MediaQuery.of(context).size.height * 0.5,
-                      width: 200.0,
-                      decoration: BoxDecoration(
-                        color: Colors.grey.withOpacity(0.1),
-                        borderRadius: BorderRadius.circular(10.0),
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    width: 15.0,
-                  ),
-                  SingleChildScrollView(
-                    child: Container(
-                      height: MediaQuery.of(context).size.height * 0.5,
-                      width: 200.0,
-                      decoration: BoxDecoration(
-                        color: Colors.grey.withOpacity(0.1),
-                        borderRadius: BorderRadius.circular(10.0),
-                      ),
-                    ),
-                  ),
-                ],
+              Divider(
+                color: Colors.white,
+                height: 2.0,
+              ),
+              SizedBox(
+                height: 15.0,
+              ),
+              ConfigurationElement(
+                label: "Tipo do Tiro",
+                options: viewModel.tiposDeTiro,
+                current: viewModel.tipoDeTiroSelecionado,
+                labelSize: 20.0,
+                onChange: (novoTipoTiro) {
+                  viewModel.alterarTipoTiroCommand(novoTipoTiro);
+                  //viewModel.alterarTamanhoDoTabuleiroCommand(novoTamanho);
+                },
+              ),
+              Expanded(
+                child: LayoutBuilder(
+                  builder: (context, constraints) {
+                    return Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        SingleChildScrollView(
+                          child: Container(
+                            height: constraints.constrainHeight() * 0.9,
+                            width: 200.0,
+                            decoration: BoxDecoration(
+                              color: Colors.grey.withOpacity(0.1),
+                              borderRadius: BorderRadius.circular(10.0),
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          width: 15.0,
+                        ),
+                        SingleChildScrollView(
+                          child: Container(
+                            height: constraints.constrainHeight() * 0.9,
+                            width: 200.0,
+                            decoration: BoxDecoration(
+                              color: Colors.grey.withOpacity(0.1),
+                              borderRadius: BorderRadius.circular(10.0),
+                            ),
+                          ),
+                        ),
+                      ],
+                    );
+                  },
+                ),
               ),
             ],
           );

@@ -15,17 +15,18 @@ class TiroTabuleiro {
   });
 
   List<Coordenada> _getCoordenadas() {
-    return List.generate(tiro.raioDeTiro, (index) => index + 1).fold([], (acc, nextValue) {
-      return [
-        ...acc,
-        ...this._getPontos(this.x, this.y, nextValue),
-      ];
-    });
+    final List<Coordenada> coordenadas = [];
+
+    for (int i = 0; i < tiro.raioDeTiro + 1; i++) {
+      coordenadas.addAll(this._getPontos(x, y, i));
+    }
+
+    return coordenadas;
   }
 
   List<Coordenada> _getPontos(int x, int y, int raio) {
-    final array = [
-      // Coordenada(x: x, y: y),
+    return [
+      Coordenada(x: x, y: y),
       Coordenada(x: x, y: y + raio),
       Coordenada(x: x + raio, y: y + raio),
       Coordenada(x: x + raio, y: y),
@@ -35,7 +36,6 @@ class TiroTabuleiro {
       Coordenada(x: x - raio, y: y),
       Coordenada(x: x - raio, y: y + raio),
     ];
-    return array;
   }
 
   @override
