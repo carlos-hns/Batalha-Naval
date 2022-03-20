@@ -22,8 +22,7 @@ class TabuleiroTiros {
   }
 
   List<List<String>> gerarTabuleiro() {
-    // final tabuleiro = this._gerarTabuleiroVaio();
-    List<List<String>> tabuleiro = _gerarTabuleiroVaio();
+    final tabuleiro = this._gerarTabuleiroVaio();
 
     tiros.forEach((tiro) {
       tabuleiro[tiro.x][tiro.y] = 'X';
@@ -38,7 +37,7 @@ class TabuleiroTiros {
   }
 
   List<List<String>> _gerarTabuleiroVaio() {
-    return List.generate(this.limiteVertical, (_) => List.generate(this.limiteHorizontal, (index) => 'A'));
+    return List.generate(this.limiteVertical, (_) => List.generate(this.limiteHorizontal, (index) => '0'));
   }
 
   bool _existeLocalExplodido(TiroTabuleiro tiroAInserir) {
