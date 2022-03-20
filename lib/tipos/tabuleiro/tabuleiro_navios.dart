@@ -44,14 +44,6 @@ class TabuleiroNavios {
   }
 
   List<List<String>> naviosAfundados(TabuleiroNavios tabuleiroOriginal, List<List<String>> novoTabuleiro) {
-    // for (int i = 0; i < tabuleiroOriginal.navios.length; i++) {
-    //   for (var j = 0; j < tabuleiroOriginal.navios[i].pontos.length; j++) {
-    //     if (tabuleiroOriginal.navios[i].pontos == novoTabuleiro[i][j]) {
-    //       print(tabuleiroOriginal.navios[i].pontos);
-    //       print(novoTabuleiro[i][j]);
-    //     }
-    //   }
-    // }
     final naviosAfundados = tabuleiroOriginal.navios.where((navio) {
       final pontos = navio.pontos;
       bool foiAfundado = true;

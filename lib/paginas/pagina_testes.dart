@@ -31,8 +31,15 @@ class PaginaTestes extends StatelessWidget {
         Maquina().tirosAutomaticos(tabuleiroTiro, tabuleiroDeBatalha);
 
         print(".");
-
+        tabuleiroDeBatalha = tabuleiroMaquina.gerarTabuleiroComTiros(tabuleiroMaquina, tabuleiroTiro.gerarTabuleiro());
         MatrizHelper().imprimirMatriz(tabuleiroDeBatalha);
+        Maquina().tirosAutomaticos(tabuleiroTiro, tabuleiroDeBatalha);
+        tabuleiroDeBatalha = tabuleiroMaquina.gerarTabuleiroComTiros(tabuleiroMaquina, tabuleiroTiro.gerarTabuleiro());
+        MatrizHelper().imprimirMatriz(tabuleiroDeBatalha);
+        Maquina().tirosAutomaticos(tabuleiroTiro, tabuleiroDeBatalha);
+        tabuleiroDeBatalha = tabuleiroMaquina.gerarTabuleiroComTiros(tabuleiroMaquina, tabuleiroTiro.gerarTabuleiro());
+        MatrizHelper().imprimirMatriz(tabuleiroDeBatalha);
+        Maquina().tirosAutomaticos(tabuleiroTiro, tabuleiroDeBatalha);
         print(".");
         // List<List<String>> tabuleiroMaquina2 = tabuleiroMaquina.gerarTabuleiro();
         //tabuleiroMaquina2 = tabuleiroTiro.gerarTabuleiro();

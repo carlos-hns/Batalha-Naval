@@ -1,3 +1,4 @@
+import 'package:batalha_naval/tipos/coordenada.dart';
 import 'package:batalha_naval/tipos/navios/contra_torpedeiro.dart';
 import 'package:batalha_naval/tipos/navios/navio_tanque.dart';
 import 'package:batalha_naval/tipos/navios/porta_aviao.dart';
@@ -15,6 +16,7 @@ import 'package:batalha_naval/tipos/tiros/tiro_normal.dart';
 class Maquina {
   var rng = Random();
   var tiroEspecial = 2;
+  var tirosAcertados = [];
 
   TabuleiroNavios geraTabuleiroMaquina(int limiteHorizontal, int limiteVertical) {
     var tabuleiroNavio = TabuleiroNavios(limiteHorizontal: limiteHorizontal, limiteVertical: limiteVertical);
@@ -124,38 +126,71 @@ class Maquina {
     return min + Random().nextInt(max - min);
   }
 
+  List<Coordenada> nextHit(List<List<String>> tabuleiroBatalha) {
+    List<Coordenada> novosTiros = [];
+
+    for (Coordenada tiroAcertado in this.tirosAcertados) {
+      Coordenada coordenadaTestaLinha = Coordenada(x: tiroAcertado.x + 1, y: tiroAcertado.y);
+      Coordenada novoTiroLinha = Coordenada(x: tiroAcertado.x + 2, y: tiroAcertado.y);
+      Coordenada coordenadaTestaColuna = Coordenada(x: tiroAcertado.x, y: tiroAcertado.y + 1);
+      Coordenada novoTiroColuna = Coordenada(x: tiroAcertado.x, y: tiroAcertado.y + 2);
+
+      if (this.tirosAcertados.contains(coordenadaTestaLinha) &&
+          tabuleiroBatalha[novoTiroLinha.x][novoTiroLinha.y] != "V") {
+        novosTiros.add(novoTiroLinha);
+      } else if (this.tirosAcertados.contains(coordenadaTestaColuna) &&
+          tabuleiroBatalha[novoTiroColuna.x][novoTiroColuna.y] != "V") {
+        novosTiros.add(coordenadaTestaColuna);
+      }
+    }
+
+    return novosTiros;
+  }
+
   TabuleiroTiros tirosAutomaticos(TabuleiroTiros tabuleiroTiros, List<List<String>> tabuleiroBatalha) {
     var contTiros = 3;
+    bool jaAtirou = false;
+
     for (var i = 0; i < tabuleiroBatalha.length; i++) {
       for (var j = 0; j < tabuleiroBatalha[i].length; j++) {
         if (tabuleiroBatalha[i][j] == "V") {
-          if (tiroEspecial > 0 && usarTiroEspecial()) {
-            tiroEspecialMaquinaComCoordenadas(tabuleiroTiros, i, j);
-          } else if (contTiros > 0) {
-            tiroNormalMaquinaComCoordenadas(tabuleiroTiros, i, j);
-            contTiros--;
-          }
-        } else if (tiroEspecial > 0 && usarTiroEspecial()) {
-          tiroEspecialMaquina(tabuleiroTiros);
-        } else if (contTiros > 0) {
-          tiroNormalMaquina(tabuleiroTiros);
-          contTiros--;
+          tirosAcertados.add(Coordenada(x: i, y: j));
         }
       }
     }
 
-    if (tiroEspecial > 0 && usarTiroEspecial()) {
-      tiroEspecialMaquina(tabuleiroTiros);
-    } else {
-      tiroNormalMaquina(tabuleiroTiros);
-      tiroNormalMaquina(tabuleiroTiros);
-      tiroNormalMaquina(tabuleiroTiros);
+    var novosTiros = nextHit(tabuleiroBatalha);
+
+    if (novosTiros.isNotEmpty) {
+      for (var i = 0; i < novosTiros.length || i < 3; i++) {
+        if (contTiros > 0) {
+          tiroNormalMaquinaComCoordenadas(tabuleiroTiros, novosTiros[i].x, novosTiros[i].y);
+          contTiros--;
+          jaAtirou = true;
+        } else {
+          return tabuleiroTiros;
+        }
+      }
     }
+
+    if (tiroEspecial > 0 && usarTiroEspecial() && !jaAtirou) {
+      tiroEspecialMaquina(tabuleiroTiros);
+      tiroEspecial--;
+      jaAtirou = true;
+      return tabuleiroTiros;
+    }
+
+    for (var i = contTiros; i > 0; i--) {
+      tiroNormalMaquina(tabuleiroTiros);
+      contTiros--;
+      jaAtirou = true;
+    }
+
     return tabuleiroTiros;
   }
 
   bool usarTiroEspecial() {
-    var aleatorio = rng.nextInt(50);
+    var aleatorio = rng.nextInt(10);
     if (aleatorio % 2 == 0) {
       return true;
     } else {
