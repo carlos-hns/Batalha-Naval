@@ -1,4 +1,3 @@
-import 'package:batalha_naval/tipos/coordenada.dart';
 import 'package:batalha_naval/tipos/eixo.dart';
 import 'package:batalha_naval/tipos/tabuleiro/navio_tabuleiro.dart';
 
@@ -25,38 +24,30 @@ class TabuleiroNavios {
     return tabuleiro;
   }
 
-  List<List<String>> gerarTabuleiroComTiros(TabuleiroNavios tabuleiro, List<List<String>> tiros) {
-    List<List<String>> novoTabuleiro = tabuleiro.gerarTabuleiro();
-    for (int i = 0; i < novoTabuleiro.length; i++) {
-      for (int j = 0; j < novoTabuleiro[i].length; j++) {
+  List<List<String>> mesclarTabuleiroDeNaviosComTiros(TabuleiroNavios tabuleiro, List<List<String>> tiros) {
+    List<List<String>> mesclaNaviosETiros = tabuleiro.gerarTabuleiro();
+    for (int i = 0; i < mesclaNaviosETiros.length; i++) {
+      for (int j = 0; j < mesclaNaviosETiros[i].length; j++) {
         if (tiros[i][j] == "X") {
-          if (novoTabuleiro[i][j] != "0") {
-            novoTabuleiro[i][j] = "V";
+          if (mesclaNaviosETiros[i][j] != "0") {
+            mesclaNaviosETiros[i][j] = "V";
             print("Hum, Acertou miseravi!");
           } else {
-            novoTabuleiro[i][j] = tiros[i][j];
+            mesclaNaviosETiros[i][j] = tiros[i][j];
           }
         }
       }
     }
-    novoTabuleiro = naviosAfundados(tabuleiro, novoTabuleiro);
-    return novoTabuleiro;
+    mesclaNaviosETiros = this._naviosAfundados(tabuleiro, mesclaNaviosETiros);
+    return mesclaNaviosETiros;
   }
 
-  List<List<String>> naviosAfundados(TabuleiroNavios tabuleiroOriginal, List<List<String>> novoTabuleiro) {
-    // for (int i = 0; i < tabuleiroOriginal.navios.length; i++) {
-    //   for (var j = 0; j < tabuleiroOriginal.navios[i].pontos.length; j++) {
-    //     if (tabuleiroOriginal.navios[i].pontos == novoTabuleiro[i][j]) {
-    //       print(tabuleiroOriginal.navios[i].pontos);
-    //       print(novoTabuleiro[i][j]);
-    //     }
-    //   }
-    // }
-    final naviosAfundados = tabuleiroOriginal.navios.where((navio) {
+  List<List<String>> _naviosAfundados(TabuleiroNavios tabuleiroNavios, List<List<String>> mesclaNaviosETiros) {
+    final naviosAfundados = tabuleiroNavios.navios.where((navio) {
       final pontos = navio.pontos;
       bool foiAfundado = true;
       pontos.forEach((ponto) {
-        if (novoTabuleiro[ponto.x][ponto.y] == "V") {
+        if (mesclaNaviosETiros[ponto.x][ponto.y] == "V") {
           foiAfundado = foiAfundado && true;
         } else {
           foiAfundado = foiAfundado && false;
@@ -64,13 +55,14 @@ class TabuleiroNavios {
       });
       return foiAfundado;
     }).toList();
+
     naviosAfundados.forEach((navio) {
       navio.pontos.forEach((ponto) {
-        novoTabuleiro[ponto.x][ponto.y] = _tiposNaviosAfundados(navio.navio.caracterRepresentador);
+        mesclaNaviosETiros[ponto.x][ponto.y] = this._tiposNaviosAfundados(navio.navio.caracterRepresentador);
       });
     });
 
-    return novoTabuleiro;
+    return mesclaNaviosETiros;
   }
 
   String _tiposNaviosAfundados(String caractere) {

@@ -26,7 +26,7 @@ class PaginaTestes extends StatelessWidget {
         print(".");
         print(".");
         var tabuleiroDeBatalha =
-            tabuleiroMaquina.gerarTabuleiroComTiros(tabuleiroMaquina, tabuleiroTiro.gerarTabuleiro());
+            tabuleiroMaquina.mesclarTabuleiroDeNaviosComTiros(tabuleiroMaquina, tabuleiroTiro.gerarTabuleiro());
         print(".");
         Maquina().tirosAutomaticos(tabuleiroTiro, tabuleiroDeBatalha);
 

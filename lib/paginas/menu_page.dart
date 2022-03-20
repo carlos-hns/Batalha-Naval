@@ -7,25 +7,28 @@ class MenuPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Color(0xFF222623),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            this._menuButton("Iniciar Partida", () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => InsercaoNaviosPage(),
-                ),
-              );
-            }),
-            SizedBox(
-              height: 15.0,
-            ),
-            this._menuButton("Ranking", () {}),
-          ],
+    return WillPopScope(
+      onWillPop: () async => false,
+      child: Scaffold(
+        backgroundColor: Color(0xFF222623),
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              this._menuButton("Iniciar Partida", () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => InsercaoNaviosPage(),
+                  ),
+                );
+              }),
+              SizedBox(
+                height: 15.0,
+              ),
+              this._menuButton("Ranking", () {}),
+            ],
+          ),
         ),
       ),
     );

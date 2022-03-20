@@ -16,36 +16,39 @@ class InsercaoNaviosPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BaseView<InsercaoNaviosViewModel>(
-      onInitState: (viewModel) {
-        viewModel.adicionarNavioCommand.results
-            .where((event) => event.data != null)
-            .map((result) => result.data)
-            .listen((foiAdicionado) {
-          if (!(foiAdicionado!)) {
-            return showBatalhaDialog(
-              context,
-              "Erro!",
-              "Impossível adicionar návio (Insira dentro dos limites, em um local sem conflito e verifique se ainda restam návios a serem adicionados)",
-              () {
-                Navigator.pop(context);
-              },
-            );
-          }
-        });
-      },
-      builder: (context, viewModel) {
-        return Scaffold(
-          backgroundColor: Colors.blueAccent,
-          body: Row(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              this._sideBar(context, viewModel),
-              this._board(viewModel),
-            ],
-          ),
-        );
-      },
+    return WillPopScope(
+      onWillPop: () async => false,
+      child: BaseView<InsercaoNaviosViewModel>(
+        onInitState: (viewModel) {
+          viewModel.adicionarNavioCommand.results
+              .where((event) => event.data != null)
+              .map((result) => result.data)
+              .listen((foiAdicionado) {
+            if (!(foiAdicionado!)) {
+              return showBatalhaDialog(
+                context,
+                "Erro!",
+                "Impossível adicionar návio (Insira dentro dos limites, em um local sem conflito e verifique se ainda restam návios a serem adicionados)",
+                () {
+                  Navigator.pop(context);
+                },
+              );
+            }
+          });
+        },
+        builder: (context, viewModel) {
+          return Scaffold(
+            backgroundColor: Colors.blueAccent,
+            body: Row(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                this._sideBar(context, viewModel),
+                this._board(viewModel),
+              ],
+            ),
+          );
+        },
+      ),
     );
   }
 
