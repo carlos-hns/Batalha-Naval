@@ -16,16 +16,14 @@ class MatrizHelper<T> {
   }
 
   void imprimirMatriz(List<List<T>> matriz) {
-    print("");
-    //stdout.write("\n");
-
+    String linha = "";
     for (int i = 0; i < matriz.length; i++) {
       for (int j = 0; j < matriz[i].length; j++) {
-        stdout.write("${matriz[i][j]} ");
+        linha += "${matriz[i][j]} ";
       }
-      stdout.write("\n");
+      print(linha + i.toString() + "\n");
+      linha = "";
     }
-
-    stdout.write("\n");
+    print("");
   }
 }

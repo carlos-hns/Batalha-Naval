@@ -28,10 +28,10 @@ class TabuleiroTiros {
     List<List<String>> tabuleiro = _gerarTabuleiroVaio();
 
     tiros.forEach((tiro) {
-      tabuleiro[tiro.x][tiro.y] = 'x';
+      tabuleiro[tiro.x][tiro.y] = 'X';
       tiro.pontos.forEach((coordenada) {
         if (tiro.y >= 0 && tiro.y <= this.limiteHorizontal && tiro.x >= 0 && tiro.x <= this.limiteVertical) {
-          tabuleiro[coordenada.x][coordenada.y] = 'x';
+          tabuleiro[coordenada.x][coordenada.y] = 'X';
         }
       });
     });
@@ -40,7 +40,7 @@ class TabuleiroTiros {
   }
 
   List<List<String>> _gerarTabuleiroVaio() {
-    return List.generate(this.limiteVertical, (_) => List.generate(this.limiteHorizontal, (index) => '0'));
+    return List.generate(this.limiteVertical, (_) => List.generate(this.limiteHorizontal, (index) => 'A'));
   }
 
   bool _existeLocalExplodido(TiroTabuleiro tiroAInserir) {
