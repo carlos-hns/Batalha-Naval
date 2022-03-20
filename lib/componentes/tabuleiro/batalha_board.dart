@@ -34,8 +34,9 @@ class BatalhaBoard extends StatelessWidget {
       children: List.generate(
         y,
         (currentY) {
-          final info =
-              this.tilesInfo!.firstWhereOrNull((info) => info.coordenada == Coordenada(x: currentX, y: currentY));
+          final info = this.tilesInfo!.firstWhereOrNull((info) {
+            return info.coordenada == Coordenada(x: currentX, y: currentY);
+          });
 
           return BoardTile(
             color: info != null ? info.color : null,

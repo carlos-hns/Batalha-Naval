@@ -1,4 +1,5 @@
-import 'package:batalha_naval/paginas/jogo_page.dart';
+import 'package:batalha_naval/app_colors.dart';
+import 'package:batalha_naval/paginas/insercao_navios_page.dart';
 import 'package:flutter/material.dart';
 
 class MenuPage extends StatelessWidget {
@@ -13,10 +14,11 @@ class MenuPage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             this._menuButton("Iniciar Partida", () {
+              print("Teste");
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => JogoPage(),
+                  builder: (context) => InsercaoNaviosPage(),
                 ),
               );
             }),
@@ -30,12 +32,12 @@ class MenuPage extends StatelessWidget {
     );
   }
 
-  Widget _menuButton(String title, Function onPressed) {
+  Widget _menuButton(String title, Function() onPressed) {
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
-        primary: Colors.purple,
+        primary: PrimaryColor,
       ),
-      onPressed: () {},
+      onPressed: onPressed,
       child: Padding(
         padding: EdgeInsets.all(20.0),
         child: Text(

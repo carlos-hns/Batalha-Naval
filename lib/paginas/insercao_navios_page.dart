@@ -1,8 +1,10 @@
+import 'package:batalha_naval/app_colors.dart';
 import 'package:batalha_naval/base/base_view.dart';
 import 'package:batalha_naval/componentes/common/batalha_dialog.dart';
 import 'package:batalha_naval/componentes/tabuleiro/batalha_board.dart';
 import 'package:batalha_naval/componentes/common/batalha_botao.dart';
 import 'package:batalha_naval/componentes/configuracoes/configuration_element.dart';
+import 'package:batalha_naval/paginas/jogo_page.dart';
 import 'package:batalha_naval/tipos/configuration_step.dart';
 import 'package:batalha_naval/tipos/tamanho.dart';
 import 'package:batalha_naval/view_models/insercao_navios_view_model.dart';
@@ -24,7 +26,7 @@ class InsercaoNaviosPage extends StatelessWidget {
             return showBatalhaDialog(
               context,
               "Erro!",
-              "Impossível adicionar návio (Insira dentro dos limites ou em um local sem conflito)",
+              "Impossível adicionar návio (Insira dentro dos limites, em um local sem conflito e verifique se ainda restam návios a serem adicionados)",
               () {
                 Navigator.pop(context);
               },
@@ -34,6 +36,7 @@ class InsercaoNaviosPage extends StatelessWidget {
       },
       builder: (context, viewModel) {
         return Scaffold(
+          backgroundColor: Colors.blueAccent,
           body: Row(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
@@ -57,6 +60,48 @@ class InsercaoNaviosPage extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             mainAxisSize: MainAxisSize.max,
             children: [
+              Visibility(
+                visible: viewModel.configurationStep == ConfigurationStep.Insercao,
+                child: Text(
+                  "Submarinos Restantes: ${viewModel.submarinosDisponiveis}",
+                  style: TextStyle(
+                    color: TextColor,
+                  ),
+                ),
+              ),
+              Visibility(
+                visible: viewModel.configurationStep == ConfigurationStep.Insercao,
+                child: Text(
+                  "ContraTorpedeiro Restantes: ${viewModel.contratorpedeiroDisponiveis}",
+                  style: TextStyle(
+                    color: TextColor,
+                  ),
+                ),
+              ),
+              Visibility(
+                visible: viewModel.configurationStep == ConfigurationStep.Insercao,
+                child: Text(
+                  "Navio Tanque Restantes: ${viewModel.navioTanqueDisponiveis}",
+                  style: TextStyle(
+                    color: TextColor,
+                  ),
+                ),
+              ),
+              Visibility(
+                visible: viewModel.configurationStep == ConfigurationStep.Insercao,
+                child: Text(
+                  "Porta Aviões Restantes: ${viewModel.portaAviaoDisponiveis}",
+                  style: TextStyle(
+                    color: TextColor,
+                  ),
+                ),
+              ),
+              Visibility(
+                visible: viewModel.configurationStep == ConfigurationStep.Insercao,
+                child: SizedBox(
+                  height: 50.0,
+                ),
+              ),
               Visibility(
                 visible: viewModel.configurationStep == ConfigurationStep.Tamanho,
                 child: ConfigurationElement(
@@ -104,6 +149,23 @@ class InsercaoNaviosPage extends StatelessWidget {
                   child: BatalhaBotao(
                     label: "Resetar",
                     onTap: () => viewModel.alterarStepCommand(ConfigurationStep.Insercao),
+                  ),
+                ),
+              ),
+              Visibility(
+                visible: viewModel.podeIniciarPartida(),
+                child: Padding(
+                  padding: EdgeInsets.only(top: 5.0),
+                  child: BatalhaBotao(
+                    label: "Iniciar Partida",
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => JogoPage(tabuleiroNavios: viewModel.tabuleiro),
+                        ),
+                      );
+                    },
                   ),
                 ),
               ),
