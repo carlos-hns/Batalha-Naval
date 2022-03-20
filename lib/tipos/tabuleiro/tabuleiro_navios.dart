@@ -42,8 +42,13 @@ class TabuleiroNavios {
     return mesclaNaviosETiros;
   }
 
+<<<<<<< HEAD
   List<List<String>> _naviosAfundados(TabuleiroNavios tabuleiroNavios, List<List<String>> mesclaNaviosETiros) {
     final naviosAfundados = tabuleiroNavios.navios.where((navio) {
+=======
+  List<List<String>> naviosAfundados(TabuleiroNavios tabuleiroOriginal, List<List<String>> novoTabuleiro) {
+    final naviosAfundados = tabuleiroOriginal.navios.where((navio) {
+>>>>>>> eliseu
       final pontos = navio.pontos;
       bool foiAfundado = true;
       pontos.forEach((ponto) {
