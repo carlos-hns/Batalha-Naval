@@ -16,7 +16,8 @@ class MatrizHelper<T> {
   }
 
   void imprimirMatriz(List<List<T>> matriz) {
-    stdout.write("\n");
+    print("");
+    //stdout.write("\n");
 
     for (int i = 0; i < matriz.length; i++) {
       for (int j = 0; j < matriz[i].length; j++) {

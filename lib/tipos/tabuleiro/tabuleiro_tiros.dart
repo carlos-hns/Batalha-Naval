@@ -15,6 +15,8 @@ class TabuleiroTiros {
   bool inserirTiro(TiroTabuleiro tiro) {
     if (!this._existeLocalExplodido(tiro)) {
       this.tiros.add(tiro);
+      print(tiro.pontos);
+      print(tiro);
       return true;
     }
 
@@ -25,10 +27,10 @@ class TabuleiroTiros {
     final tabuleiro = this._gerarTabuleiroVaio();
 
     tiros.forEach((tiro) {
-      tabuleiro[tiro.y][tiro.x] = 'x';
+      tabuleiro[tiro.x][tiro.y] = 'x';
       tiro.pontos.forEach((coordenada) {
-        if (tiro.x >= 0 && tiro.x <= this.limiteHorizontal && tiro.y >= 0 && tiro.y <= this.limiteVertical) {
-          tabuleiro[coordenada.y][coordenada.x] = 'x';
+        if (tiro.y >= 0 && tiro.y <= this.limiteHorizontal && tiro.x >= 0 && tiro.x <= this.limiteVertical) {
+          tabuleiro[coordenada.x][coordenada.y] = 'x';
         }
       });
     });
