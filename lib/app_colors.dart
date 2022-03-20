@@ -4,6 +4,6 @@ const PrimaryColor = Colors.blueAccent;
 const TextColor = Colors.white;
 
 const SubmarinoColor = Colors.amber;
-const NavioTanqueColor = Colors.red;
+const NavioTanqueColor = Colors.deepPurpleAccent;
 const PortaAviaoColor = Colors.lightGreen;
 const ContratorpedeiroColor = Colors.indigo;

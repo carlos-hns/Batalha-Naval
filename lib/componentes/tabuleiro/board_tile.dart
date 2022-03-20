@@ -39,7 +39,7 @@ class _BoardTileState extends State<BoardTile> {
             height: 25.0,
             width: 25.0,
             decoration: BoxDecoration(
-              color: this._isHover ? Colors.blue : (this.widget.color ?? Colors.black),
+              color: this._isHover ? Colors.black : (this.widget.color ?? Colors.white),
               shape: BoxShape.circle,
             ),
           ),

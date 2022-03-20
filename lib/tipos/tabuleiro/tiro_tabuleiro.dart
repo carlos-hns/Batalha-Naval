@@ -24,7 +24,8 @@ class TiroTabuleiro {
   }
 
   List<Coordenada> _getPontos(int x, int y, int raio) {
-    return [
+    final array = [
+      // Coordenada(x: x, y: y),
       Coordenada(x: x, y: y + raio),
       Coordenada(x: x + raio, y: y + raio),
       Coordenada(x: x + raio, y: y),
@@ -34,6 +35,7 @@ class TiroTabuleiro {
       Coordenada(x: x - raio, y: y),
       Coordenada(x: x - raio, y: y + raio),
     ];
+    return array;
   }
 
   @override

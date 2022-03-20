@@ -4,23 +4,15 @@ import 'package:batalha_naval/tipos/navios/porta_aviao.dart';
 import 'package:batalha_naval/tipos/navios/submarino.dart';
 import 'package:batalha_naval/tipos/tabuleiro/navio_tabuleiro.dart';
 import 'package:batalha_naval/tipos/tabuleiro/tabuleiro_navios.dart';
+import 'package:batalha_naval/tipos/tabuleiro/tabuleiro_tiros.dart';
+import 'package:batalha_naval/tipos/tabuleiro/tiro_tabuleiro.dart';
 import 'package:batalha_naval/tipos/eixo.dart';
 import 'dart:math';
 
+import 'package:batalha_naval/tipos/tiros/tiro_especial.dart';
+import 'package:batalha_naval/tipos/tiros/tiro_normal.dart';
+
 class Maquina {
-  //criar função para atirar no jogador{tiros aleatorios até identificar um acerto e a partir dele seguir para destruir o navio completamente}
-
-  //criar função para gerar automaticamente e aleatoriamente os navios da maquina
-  /*
-  recebe tamanho do tabuleiro
-  retornar coordenadas, eixo e List<navios>
-  1 porta aviões
-  2 navios-tanque
-  3 contratorpedeiros
-  4 submarinos
-  
-   */
-
   var rng = Random();
 
   TabuleiroNavios geraTabuleiroMaquina(int limiteHorizontal, int limiteVertical) {
@@ -91,5 +83,35 @@ class Maquina {
       return Eixo.Horizontal;
     }
   }
+
+  TabuleiroTiros geraTabuleiroTiroMaquina(int tamanhoH, int tamanhoV) {
+    var tabuleiroTiros = TabuleiroTiros(limiteHorizontal: tamanhoH, limiteVertical: tamanhoV);
+    tiroNormalMaquina(tabuleiroTiros);
+    tiroNormalMaquina(tabuleiroTiros);
+    tiroEspecialMaquina(tabuleiroTiros);
+    //tiroEspecialMaquina(tabuleiroTiros);
+    return tabuleiroTiros;
+  }
+
+  void tiroNormalMaquina(TabuleiroTiros tabuleiroTiros) {
+    if (!tabuleiroTiros.inserirTiro(TiroTabuleiro(
+        x: rng.nextInt(tabuleiroTiros.limiteHorizontal),
+        y: rng.nextInt(tabuleiroTiros.limiteVertical),
+        tiro: TiroNormal()))) {
+      tiroNormalMaquina(tabuleiroTiros);
+    }
+  }
+
+  void tiroEspecialMaquina(TabuleiroTiros tabuleiroTiros) {
+    if (!tabuleiroTiros.inserirTiro(TiroTabuleiro(
+        x: random(1, tabuleiroTiros.limiteHorizontal - 1),
+        y: random(1, tabuleiroTiros.limiteVertical - 1),
+        tiro: TiroEspecial()))) {
+      tiroEspecialMaquina(tabuleiroTiros);
+    }
+  }
+
+  int random(min, max) {
+    return min + Random().nextInt(max - min);
+  }
 }
-//

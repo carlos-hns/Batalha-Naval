@@ -17,6 +17,18 @@ import 'package:rx_command/rx_command.dart';
 class InsercaoNaviosViewModel extends BaseViewModel {
   ConfigurationStep configurationStep = ConfigurationStep.Tamanho;
 
+  Map<String, dynamic> _instances = Map();
+  int get submarinosDisponiveis => this._instances["Submarino"];
+  int get contratorpedeiroDisponiveis => this._instances["Contratorpedeiro"];
+  int get navioTanqueDisponiveis => this._instances["Navio Tanque"];
+  int get portaAviaoDisponiveis => this._instances["Porta Avião"];
+  bool podeIniciarPartida() {
+    return this.submarinosDisponiveis == 0 &&
+        this.contratorpedeiroDisponiveis == 0 &&
+        this.navioTanqueDisponiveis == 0 &&
+        this.portaAviaoDisponiveis == 0;
+  }
+
   List<String> tamanhosDeTabuleiro = ["10x10", "15x15"];
   String tamanhoAtualTabuleiro = "10x10";
 
@@ -27,6 +39,7 @@ class InsercaoNaviosViewModel extends BaseViewModel {
   String eixoSelecionado = "Horizontal";
 
   late TabuleiroNavios _tabuleiroNavios = TabuleiroNavios(limiteHorizontal: 0, limiteVertical: 0);
+  TabuleiroNavios get tabuleiro => this._tabuleiroNavios;
   List<NavioTabuleiro> get navios => this._tabuleiroNavios.navios;
 
   late RxCommand<String, Tamanho> _alterarTamanhoDoTabuleiroCommand;
@@ -50,6 +63,8 @@ class InsercaoNaviosViewModel extends BaseViewModel {
     this._alterarEixoCommand = RxCommand.createSyncNoResult(this._onAlterarEixo);
     this._alterarStepCommand = RxCommand.createSyncNoResult(this._onAlterarStep);
     this._adicionarNavioCommand = RxCommand.createSync(this._onAdicionarNavio);
+
+    this._iniciarIntancias();
   }
 
   Tamanho _onAlterarTamanhoDoTabuleiro(String tamanho) {
@@ -69,15 +84,50 @@ class InsercaoNaviosViewModel extends BaseViewModel {
     final tamanhoAtual = _transformarTamanho(this.tamanhoAtualTabuleiro);
     this._tabuleiroNavios = TabuleiroNavios(limiteHorizontal: tamanhoAtual.x, limiteVertical: tamanhoAtual.y);
 
+    this._iniciarIntancias();
+
     this.configurationStep = step;
     this.setStateToReady();
   }
 
   bool _onAdicionarNavio(Coordenada coordenada) {
-    final navio = this._getNavio(coordenada);
-    final adicionado = this._tabuleiroNavios.inserirNavio(navio);
+    final NavioTabuleiro navio = this._getNavio(coordenada);
+    bool foiAdicionado = false;
+
+    if (navio.navio is Submarino && this.submarinosDisponiveis > 0) {
+      foiAdicionado = this._tabuleiroNavios.inserirNavio(navio);
+
+      if (foiAdicionado) {
+        this._instances["Submarino"] -= 1;
+      }
+    }
+
+    if (navio.navio is ContraTorpedeiro && this.contratorpedeiroDisponiveis > 0) {
+      foiAdicionado = this._tabuleiroNavios.inserirNavio(navio);
+
+      if (foiAdicionado) {
+        this._instances["Contratorpedeiro"] -= 1;
+      }
+    }
+
+    if (navio.navio is NavioTanque && this.navioTanqueDisponiveis > 0) {
+      foiAdicionado = this._tabuleiroNavios.inserirNavio(navio);
+
+      if (foiAdicionado) {
+        this._instances["Navio Tanque"] -= 1;
+      }
+    }
+
+    if (navio.navio is PortaAviao && this.portaAviaoDisponiveis > 0) {
+      foiAdicionado = this._tabuleiroNavios.inserirNavio(navio);
+
+      if (foiAdicionado) {
+        this._instances["Porta Avião"] -= 1;
+      }
+    }
+
     this.setStateToReady();
-    return adicionado;
+    return foiAdicionado;
   }
 
   Tamanho _transformarTamanho(String tamanho) {
@@ -138,6 +188,14 @@ class InsercaoNaviosViewModel extends BaseViewModel {
       _infos.addAll(informacoes);
     });
 
+    setStateToReady();
     return _infos;
+  }
+
+  void _iniciarIntancias() {
+    this._instances["Submarino"] = 4;
+    this._instances["Contratorpedeiro"] = 3;
+    this._instances["Navio Tanque"] = 2;
+    this._instances["Porta Avião"] = 1;
   }
 }
