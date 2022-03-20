@@ -66,74 +66,21 @@ import 'package:batalha_naval/tipos/tiros/tiro_normal.dart';
 import 'package:batalha_naval/utilidades/matriz_helper.dart';
 import 'dart:io';
 import 'entidades/maquina.dart';
+import 'package:flutter/widgets.dart';
 
 main() {
-  // final tabuleiroNavio = TabuleiroNavios(limiteHorizontal: 6, limiteVertical: 5);
+  var tabuleiroNavio = TabuleiroNavios(limiteHorizontal: 15, limiteVertical: 15);
+  MatrizHelper().imprimirMatriz(tabuleiroNavio.gerarTabuleiro());
 
-  // tabuleiroNavio.inserirNavio(NavioTabuleiro(
-  //   x: 0,
-  //   y: 0,
-  //   eixo: Eixo.Horizontal,
-  //   navio: Submarino(),
-  // ));
+//   final tabuleiroMaquina = Maquina().geraTabuleiroMaquina(15, 15);
+// //  MatrizHelper().imprimirMatriz(tabuleiroMaquina.gerarTabuleiro());
 
-  // tabuleiroNavio.inserirNavio(NavioTabuleiro(
-  //   x: 5,
-  //   y: 4,
-  //   eixo: Eixo.Vertical,
-  //   navio: Submarino(),
-  // ));
+//   final tabuleiroTiro = Maquina().geraTabuleiroTiroMaquina(15, 15);
 
-  final tabuleiroMaquina = Maquina().geraTabuleiroMaquina(15, 15);
+//   MatrizHelper().imprimirMatriz(tabuleiroTiro.gerarTabuleiro());
 
-  //MatrizHelper().imprimirMatriz(tabuleiroNavio.gerarTabuleiro());
-  MatrizHelper().imprimirMatriz(tabuleiroMaquina.gerarTabuleiro());
-  // final List<List<String>> matriz = tabuleiroMaquina.gerarTabuleiro();
+//   List<List<String>> tabuleiroMaquina2 = tabuleiroMaquina.gerarTabuleiro();
+//   //tabuleiroMaquina2 = tabuleiroTiro.gerarTabuleiro();
 
-  // matriz.toString();
-
-  stdout.write('\n');
-
-  // for (int j = 0; j < matriz.length; j++) {
-  //   // for (int i = 0; i < matriz[j].length; i++) {
-
-  //   stdout.write("${matriz[0][j]} ");
-  //   stdout.write("${matriz[1][j]} ");
-  //   stdout.write("${matriz[2][j]} ");
-  //   stdout.write("${matriz[3][j]} ");
-  //   stdout.write("${matriz[4][j]} ");
-  //   stdout.write("${matriz[5][j]} ");
-  //   stdout.write("${matriz[6][j]} ");
-  //   stdout.write("${matriz[7][j]} ");
-  //   stdout.write("${matriz[8][j]} ");
-  //   stdout.write("${matriz[9][j]} ");
-  //   stdout.write("${matriz[10][j]} ");
-  //   stdout.write("${matriz[11][j]} ");
-  //   stdout.write("${matriz[12][j]} ");
-  //   stdout.write("${matriz[13][j]} ");
-  //   stdout.write("${matriz[14][j]} ");
-
-  //   // }
-  //   stdout.write("\n");
-  // }
-
-  // stdout.write("\n");
-
-  final tabuleiroTiro = TabuleiroTiros(limiteHorizontal: 15, limiteVertical: 15);
-
-  tabuleiroTiro.inserirTiro(TiroTabuleiro(
-    x: 5,
-    y: 4,
-    tiro: TiroNormal(),
-  ));
-
-  tabuleiroTiro.inserirTiro(TiroTabuleiro(
-    x: 1,
-    y: 1,
-    tiro: TiroEspecial(),
-  ));
-
-  print(tabuleiroTiro.tiros.length);
-
-  MatrizHelper().imprimirMatriz(tabuleiroTiro.gerarTabuleiro());
+//   MatrizHelper().imprimirMatriz(tabuleiroMaquina2);
 }
