@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:batalha_naval/app_colors.dart';
 import 'package:batalha_naval/base/base_view_model.dart';
 import 'package:batalha_naval/entidades/maquina.dart';
@@ -11,6 +13,11 @@ import 'package:batalha_naval/tipos/tiros/tiro_especial.dart';
 import 'package:batalha_naval/tipos/tiros/tiro_normal.dart';
 import 'package:injectable/injectable.dart';
 import 'package:rx_command/rx_command.dart';
+
+enum GameStatus {
+  TiroEspeciaisIndisponiveis,
+  EspacoOcupado,
+}
 
 @injectable
 class JogoViewModel extends BaseViewModel {
@@ -49,6 +56,9 @@ class JogoViewModel extends BaseViewModel {
   late RxCommand<Coordenada, bool> _adicionarTiroCommand;
   RxCommand<Coordenada, bool> get adicionarTiroCommand => this._adicionarTiroCommand;
 
+  StreamController<GameStatus> _gameEvents = StreamController<GameStatus>.broadcast();
+  Stream<GameStatus> get gameEvents => this._gameEvents.stream;
+
   JogoViewModel() {
     this._initCommand = RxCommand.createSyncNoResult(this._onInit);
     this._alterarTipoTiroCommand = RxCommand.createSyncNoResult(this._onAlterarTipoTiro);
@@ -82,6 +92,11 @@ class JogoViewModel extends BaseViewModel {
         .mesclarTabuleiroDeNaviosComTiros(this._tabuleiroNavios, this._tabuleiroTirosMaquina.gerarTabuleiro());
 
     if (tiroTabuleiro.tiro is TiroNormal && this._tirosNormaisRealizados < 3 && this._tirosEspecaisRealizados == 0) {
+      if (this._tabuleiroTiros.existeLocalExplodido(tiroTabuleiro)) {
+        this._gameEvents.add(GameStatus.EspacoOcupado);
+        return false;
+      }
+
       this._tiros.add(tiroTabuleiro);
       this._tirosNormaisRealizados++;
 
@@ -93,6 +108,7 @@ class JogoViewModel extends BaseViewModel {
         this._tirosNormaisRealizados = 0;
 
         this._maquina.tirosAutomaticos(this._tabuleiroTirosMaquina, tabuleiroDeBatalha);
+        return true;
       }
     }
 
@@ -110,27 +126,14 @@ class JogoViewModel extends BaseViewModel {
         this._tirosEspecaisRealizados = 0;
 
         this._maquina.tirosAutomaticos(this._tabuleiroTirosMaquina, tabuleiroDeBatalha);
+        return true;
       }
     }
 
-    // if (tiroTabuleiro.tiro is TiroEspecial && this.quantidadeDeTirosEspeciaisRestantes > 0) {
-    //   this._tabuleiroTiros.inserirTiro(tiroTabuleiro);
+    if (tiroTabuleiro.tiro is TiroEspecial && this.quantidadeDeTirosEspeciaisRestantes == 0) {
+      this._gameEvents.add(GameStatus.TiroEspeciaisIndisponiveis);
+    }
 
-    //   this.quantidadeDeTirosEspeciaisRestantes = this.quantidadeDeTirosEspeciaisRestantes - 1;
-    //   return true;
-    // }
-
-    // if (tiroTabuleiro.tiro is TiroEspecial && this.quantidadeDeTirosEspeciaisRestantes == 0) {
-    //   return false;
-    // }
-
-    // final inserido = this._tabuleiroTiros.inserirTiro(tiroTabuleiro);
-    // if (inserido) {
-    //   this.quantidadeDeTirosNormais++;
-    //   return true;
-    // }
-
-    //return false;
     return true;
   }
 
