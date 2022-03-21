@@ -1,5 +1,6 @@
 import 'package:batalha_naval/app_colors.dart';
 import 'package:batalha_naval/paginas/insercao_navios_page.dart';
+import 'package:batalha_naval/paginas/ranking_page.dart';
 import 'package:flutter/material.dart';
 
 class MenuPage extends StatelessWidget {
@@ -26,7 +27,14 @@ class MenuPage extends StatelessWidget {
               SizedBox(
                 height: 15.0,
               ),
-              this._menuButton("Ranking", () {}),
+              this._menuButton("Ranking", () {
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => RankingPage(),
+                  ),
+                );
+              }),
             ],
           ),
         ),

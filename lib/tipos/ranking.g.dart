@@ -16,11 +16,12 @@ class RankingAdapter extends TypeAdapter<Ranking> {
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return Ranking()
-      ..nome = fields[0] as String
-      ..tamanhoTabuleiro = fields[1] as String
-      ..numeroDeTirosNormais = fields[2] as int
-      ..numeroDeTirosEspeciais = fields[3] as int;
+    return Ranking(
+      nome: fields[0] as String,
+      tamanhoTabuleiro: fields[1] as String,
+      numeroDeTirosNormais: fields[2] as int,
+      numeroDeTirosEspeciais: fields[3] as int,
+    );
   }
 
   @override

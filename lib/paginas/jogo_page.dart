@@ -130,12 +130,9 @@ class JogoPage extends StatelessWidget {
         stream: viewModel.isBusy,
         builder: (context, data) {
           return Column(
-            mainAxisAlignment: MainAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.center,
             mainAxisSize: MainAxisSize.max,
             children: [
-              SizedBox(
-                height: 50.0,
-              ),
               Text(
                 "Submarinos abatidos: ${viewModel.submarinosAbatidos}",
                 style: TextStyle(
@@ -201,40 +198,6 @@ class JogoPage extends StatelessWidget {
                   //viewModel.alterarTamanhoDoTabuleiroCommand(novoTamanho);
                 },
               ),
-              // Expanded(
-              //   child: LayoutBuilder(
-              //     builder: (context, constraints) {
-              //       return Row(
-              //         mainAxisAlignment: MainAxisAlignment.center,
-              //         children: [
-              //           SingleChildScrollView(
-              //             child: Container(
-              //               height: constraints.constrainHeight() * 0.9,
-              //               width: 200.0,
-              //               decoration: BoxDecoration(
-              //                 color: Colors.grey.withOpacity(0.1),
-              //                 borderRadius: BorderRadius.circular(10.0),
-              //               ),
-              //             ),
-              //           ),
-              //           SizedBox(
-              //             width: 15.0,
-              //           ),
-              //           SingleChildScrollView(
-              //             child: Container(
-              //               height: constraints.constrainHeight() * 0.9,
-              //               width: 200.0,
-              //               decoration: BoxDecoration(
-              //                 color: Colors.grey.withOpacity(0.1),
-              //                 borderRadius: BorderRadius.circular(10.0),
-              //               ),
-              //             ),
-              //           ),
-              //         ],
-              //       );
-              //     },
-              //   ),
-              // ),
             ],
           );
         },

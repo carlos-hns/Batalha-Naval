@@ -15,4 +15,11 @@ class Ranking extends HiveObject {
 
   @HiveField(3)
   late int numeroDeTirosEspeciais;
+
+  Ranking({
+    required this.nome,
+    required this.tamanhoTabuleiro,
+    required this.numeroDeTirosNormais,
+    required this.numeroDeTirosEspeciais,
+  });
 }
