@@ -63,17 +63,23 @@ class JogoPage extends StatelessWidget {
                       SizedBox(
                         height: 15.0,
                       ),
-                      BatalhaBoard(
-                        x: tabuleiroNavios.limiteHorizontal,
-                        y: tabuleiroNavios.limiteVertical,
-                        tilesInfo: viewModel.informacoesVisuaisMeuTabuleiro(),
-                        onTapItem: (coordenada) {
-                          return showBatalhaDialog(
-                            context,
-                            "Informamos:",
-                            "Este é seu tabuleiro, você não pode realizar ações aqui. A cada turno a máquina irá realizar suas ações e este tabuleiro será atualizado.",
-                            () {
-                              Navigator.pop(context);
+                      ReactiveBuilder(
+                        initialData: false,
+                        stream: viewModel.adicionarTiroCommand.results.map((result) => result.data!),
+                        builder: (context, _) {
+                          return BatalhaBoard(
+                            x: tabuleiroNavios.limiteHorizontal,
+                            y: tabuleiroNavios.limiteVertical,
+                            tilesInfo: viewModel.informacoesVisuaisMeuTabuleiro(),
+                            onTapItem: (coordenada) {
+                              return showBatalhaDialog(
+                                context,
+                                "Informamos:",
+                                "Este é seu tabuleiro, você não pode realizar ações aqui. A cada turno a máquina irá realizar suas ações e este tabuleiro será atualizado.",
+                                () {
+                                  Navigator.pop(context);
+                                },
+                              );
                             },
                           );
                         },

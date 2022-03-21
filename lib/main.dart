@@ -32,8 +32,8 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: "Batalha Naval",
       debugShowCheckedModeBanner: false,
-      //home: MenuPage(),
-      home: RankingPage(),
+      home: MenuPage(),
+      //home: RankingPage(),
       // home: JogoPage(
       //   tabuleiroNavios: TabuleiroNavios(limiteHorizontal: 10, limiteVertical: 10),
       // ),

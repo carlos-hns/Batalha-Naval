@@ -21,6 +21,10 @@ class JogoViewModel extends BaseViewModel {
   int naviosTanqueAbatidos = 0;
   int portaAvioesAbatidos = 0;
 
+  int _tirosNormaisRealizados = 0;
+  int _tirosEspecaisRealizados = 0;
+  List<TiroTabuleiro> _tiros = [];
+
   List<String> tiposDeTiro = ["Normal", "Especial"];
   String tipoDeTiroSelecionado = "Normal";
 
@@ -33,6 +37,7 @@ class JogoViewModel extends BaseViewModel {
   List<TiroTabuleiro> get tiros => this._tabuleiroTiros.tiros;
 
   late TabuleiroNavios _tabuleiroNaviosMaquina;
+  late TabuleiroTiros _tabuleiroTirosMaquina;
   late Maquina _maquina = Maquina();
 
   late RxCommand<TabuleiroNavios, void> _initCommand;
@@ -59,6 +64,10 @@ class JogoViewModel extends BaseViewModel {
 
     this._tabuleiroNaviosMaquina =
         this._maquina.geraTabuleiroMaquina(tabuleiro.limiteHorizontal, tabuleiro.limiteVertical);
+
+    this._tabuleiroTirosMaquina = this
+        ._maquina
+        .geraTabuleiroTiroMaquina(this._tabuleiroNavios.limiteHorizontal, this._tabuleiroNavios.limiteVertical);
   }
 
   void _onAlterarTipoTiro(String tiro) {
@@ -68,63 +77,80 @@ class JogoViewModel extends BaseViewModel {
   bool _onAdicionarTiro(Coordenada coordenada) {
     final TiroTabuleiro tiroTabuleiro = this._getTiro(coordenada);
 
-    if (tiroTabuleiro.tiro is TiroEspecial && this.quantidadeDeTirosEspeciaisRestantes > 0) {
-      this._tabuleiroTiros.inserirTiro(tiroTabuleiro);
+    final tabuleiroDeBatalha = this
+        ._tabuleiroNavios
+        .mesclarTabuleiroDeNaviosComTiros(this._tabuleiroNavios, this._tabuleiroTirosMaquina.gerarTabuleiro());
 
-      this.quantidadeDeTirosEspeciaisRestantes = this.quantidadeDeTirosEspeciaisRestantes - 1;
-      return true;
+    if (tiroTabuleiro.tiro is TiroNormal && this._tirosNormaisRealizados < 3 && this._tirosEspecaisRealizados == 0) {
+      this._tiros.add(tiroTabuleiro);
+      this._tirosNormaisRealizados++;
+
+      if (_tirosNormaisRealizados == 3) {
+        this._tabuleiroTiros.inserirTiro(_tiros[0]);
+        this._tabuleiroTiros.inserirTiro(_tiros[1]);
+        this._tabuleiroTiros.inserirTiro(_tiros[2]);
+        this._tiros = [];
+        this._tirosNormaisRealizados = 0;
+
+        this._maquina.tirosAutomaticos(this._tabuleiroTirosMaquina, tabuleiroDeBatalha);
+      }
     }
 
-    if (tiroTabuleiro.tiro is TiroEspecial && this.quantidadeDeTirosEspeciaisRestantes == 0) {
-      return false;
+    if (tiroTabuleiro.tiro is TiroEspecial &&
+        this._tirosEspecaisRealizados == 0 &&
+        this._tirosNormaisRealizados == 0 &&
+        this.quantidadeDeTirosEspeciaisRestantes > 0) {
+      this._tiros.add(tiroTabuleiro);
+      this._tirosEspecaisRealizados++;
+      this.quantidadeDeTirosEspeciaisRestantes--;
+
+      if (this._tirosEspecaisRealizados == 1) {
+        this._tabuleiroTiros.inserirTiro(_tiros[0]);
+        this._tiros = [];
+        this._tirosEspecaisRealizados = 0;
+
+        this._maquina.tirosAutomaticos(this._tabuleiroTirosMaquina, tabuleiroDeBatalha);
+      }
     }
 
-    final inserido = this._tabuleiroTiros.inserirTiro(tiroTabuleiro);
-    if (inserido) {
-      this.quantidadeDeTirosNormais++;
-      return true;
-    }
+    // if (tiroTabuleiro.tiro is TiroEspecial && this.quantidadeDeTirosEspeciaisRestantes > 0) {
+    //   this._tabuleiroTiros.inserirTiro(tiroTabuleiro);
 
-    return false;
+    //   this.quantidadeDeTirosEspeciaisRestantes = this.quantidadeDeTirosEspeciaisRestantes - 1;
+    //   return true;
+    // }
+
+    // if (tiroTabuleiro.tiro is TiroEspecial && this.quantidadeDeTirosEspeciaisRestantes == 0) {
+    //   return false;
+    // }
+
+    // final inserido = this._tabuleiroTiros.inserirTiro(tiroTabuleiro);
+    // if (inserido) {
+    //   this.quantidadeDeTirosNormais++;
+    //   return true;
+    // }
+
+    //return false;
+    return true;
   }
 
   List<BoardTileInfo> informacoesVisuaisMeuTabuleiro() {
-    //final matrizTabuleiroNavios = this._tabuleiroNaviosMaquina.gerarTabuleiro();
-    //final teste =
-
-    // var tabuleiroDeBatalha =
-    //         tabuleiroMaquina.gerarTabuleiroComTiros(tabuleiroMaquina, tabuleiroTiro.gerarTabuleiro());
-
-    //final tabuleiroNavioUsuario = this._tabuleiroNavios.gerarTabuleiro();
-    // final
-    // final tabuleiroDeBatalha = this._tabuleiroNavios.gerarTabuleiroComTiros(this._tabuleiroNavios, tiros)
-
-    // final matrizTabuleiroNavios = this._tabuleiroNaviosMaquina.gerarTabuleiroComTiros(
-    //       tabuleiroNavios,
-    //     );
-
-    //MatrizHelper().imprimirMatriz(matrizTabuleiroNavios);
-
-    final List<BoardTileInfo> _infos = [];
-
-    this.navios.forEach((navio) {
-      final informacoes = navio.pontos
-          .map((ponto) => BoardTileInfo(coordenada: Coordenada(x: ponto.x, y: ponto.y), color: navio.navio.color));
-      _infos.addAll(informacoes);
-    });
+    final tabuleiroDeBatalha = this
+        ._tabuleiroNavios
+        .mesclarTabuleiroDeNaviosComTiros(this._tabuleiroNavios, this._tabuleiroTirosMaquina.gerarTabuleiro());
 
     setStateToReady();
-    return _infos;
+    return this._extrairDadosPelaMatriz(tabuleiroDeBatalha);
   }
 
   List<BoardTileInfo> informacoesVisuaisTabuleiroMaquina() {
     final tabuleiroTirosUsuario = this._tabuleiroTiros.gerarTabuleiro();
-    final tabuleiroDeTabalha = this
+    final tabuleiroDeBatalha = this
         ._tabuleiroNaviosMaquina
         .mesclarTabuleiroDeNaviosComTiros(this._tabuleiroNaviosMaquina, tabuleiroTirosUsuario);
 
     setStateToReady();
-    return this._extrairDadosPelaMatriz(tabuleiroDeTabalha);
+    return this._extrairDadosPelaMatriz(tabuleiroDeBatalha);
   }
 
   TiroTabuleiro _getTiro(Coordenada coordenada) {
