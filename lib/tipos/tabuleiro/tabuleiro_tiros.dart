@@ -5,6 +5,7 @@ class TabuleiroTiros {
   late int limiteVertical;
   late int limiteHorizontal;
   late List<TiroTabuleiro> tiros;
+  var tiroEspecial = 2;
 
   TabuleiroTiros({
     required this.limiteHorizontal,
