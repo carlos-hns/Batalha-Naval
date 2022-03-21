@@ -65,7 +65,7 @@ class JogoPage extends StatelessWidget {
                       ),
                       ReactiveBuilder(
                         initialData: false,
-                        stream: viewModel.adicionarTiroCommand.results.map((result) => result.data!),
+                        stream: viewModel.adicionarTiroCommand.results.map((result) => result.data ?? false),
                         builder: (context, _) {
                           return BatalhaBoard(
                             x: tabuleiroNavios.limiteHorizontal,
@@ -89,7 +89,7 @@ class JogoPage extends StatelessWidget {
                 ),
                 ReactiveBuilder(
                   initialData: false,
-                  stream: viewModel.adicionarTiroCommand.results.map((result) => result.data!),
+                  stream: viewModel.adicionarTiroCommand.results.map((result) => result.data ?? false),
                   builder: (context, _) {
                     return Expanded(
                       child: Column(
