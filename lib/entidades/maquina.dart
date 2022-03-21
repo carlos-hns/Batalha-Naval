@@ -1,187 +1,49 @@
+import 'package:batalha_naval/entidades/inteligenciaMaquina.dart';
 import 'package:batalha_naval/tipos/coordenada.dart';
-import 'package:batalha_naval/tipos/navios/contra_torpedeiro.dart';
-import 'package:batalha_naval/tipos/navios/navio_tanque.dart';
-import 'package:batalha_naval/tipos/navios/porta_aviao.dart';
-import 'package:batalha_naval/tipos/navios/submarino.dart';
-import 'package:batalha_naval/tipos/tabuleiro/navio_tabuleiro.dart';
 import 'package:batalha_naval/tipos/tabuleiro/tabuleiro_navios.dart';
 import 'package:batalha_naval/tipos/tabuleiro/tabuleiro_tiros.dart';
-import 'package:batalha_naval/tipos/tabuleiro/tiro_tabuleiro.dart';
-import 'package:batalha_naval/tipos/eixo.dart';
+import 'package:batalha_naval/entidades/naviosMaquina.dart';
+import 'package:batalha_naval/entidades/tirosMaquina.dart';
 import 'dart:math';
-
-import 'package:batalha_naval/tipos/tiros/tiro_especial.dart';
-import 'package:batalha_naval/tipos/tiros/tiro_normal.dart';
 
 class Maquina {
   var rng = Random();
 
   var tirosAcertados = [];
 
-  TabuleiroNavios geraTabuleiroMaquina(int limiteHorizontal, int limiteVertical) {
-    var tabuleiroNavio = TabuleiroNavios(limiteHorizontal: limiteHorizontal, limiteVertical: limiteVertical);
-    gerarPortaAviaoMaquina(tabuleiroNavio);
-    gerarNavioTanqueMaquina(tabuleiroNavio);
-    gerarNavioTanqueMaquina(tabuleiroNavio);
-    gerarContratorpedeirosMaquina(tabuleiroNavio);
-    gerarContratorpedeirosMaquina(tabuleiroNavio);
-    gerarContratorpedeirosMaquina(tabuleiroNavio);
-    gerarSubmarinosMaquina(tabuleiroNavio);
-    gerarSubmarinosMaquina(tabuleiroNavio);
-    gerarSubmarinosMaquina(tabuleiroNavio);
-    gerarSubmarinosMaquina(tabuleiroNavio);
+  TabuleiroNavios geraTabuleiroMaquina(
+      int limiteHorizontal, int limiteVertical) {
+    var tabuleiroNavio = TabuleiroNavios(
+        limiteHorizontal: limiteHorizontal, limiteVertical: limiteVertical);
+
+    NaviosMaquina naviosMaquina = NaviosMaquina();
+    naviosMaquina.gerarPortaAviaoMaquina(tabuleiroNavio);
+    naviosMaquina.gerarNavioTanqueMaquina(tabuleiroNavio);
+    naviosMaquina.gerarNavioTanqueMaquina(tabuleiroNavio);
+    naviosMaquina.gerarContratorpedeirosMaquina(tabuleiroNavio);
+    naviosMaquina.gerarContratorpedeirosMaquina(tabuleiroNavio);
+    naviosMaquina.gerarContratorpedeirosMaquina(tabuleiroNavio);
+    naviosMaquina.gerarSubmarinosMaquina(tabuleiroNavio);
+    naviosMaquina.gerarSubmarinosMaquina(tabuleiroNavio);
+    naviosMaquina.gerarSubmarinosMaquina(tabuleiroNavio);
+    naviosMaquina.gerarSubmarinosMaquina(tabuleiroNavio);
 
     return tabuleiroNavio;
   }
 
-  void gerarPortaAviaoMaquina(TabuleiroNavios tabuleiroNavio) {
-    if (!tabuleiroNavio.inserirNavio(NavioTabuleiro(
-      x: rng.nextInt(tabuleiroNavio.limiteHorizontal),
-      y: rng.nextInt(tabuleiroNavio.limiteVertical),
-      eixo: gerarEixoAleatorio(),
-      navio: PortaAviao(),
-    ))) {
-      gerarPortaAviaoMaquina(tabuleiroNavio);
-    }
-  }
-
-  void gerarNavioTanqueMaquina(TabuleiroNavios tabuleiroNavio) {
-    if (!tabuleiroNavio.inserirNavio(NavioTabuleiro(
-      x: rng.nextInt(tabuleiroNavio.limiteHorizontal),
-      y: rng.nextInt(tabuleiroNavio.limiteVertical),
-      eixo: gerarEixoAleatorio(),
-      navio: NavioTanque(),
-    ))) {
-      gerarNavioTanqueMaquina(tabuleiroNavio);
-    }
-  }
-
-  void gerarContratorpedeirosMaquina(TabuleiroNavios tabuleiroNavio) {
-    if (!tabuleiroNavio.inserirNavio(NavioTabuleiro(
-      x: rng.nextInt(tabuleiroNavio.limiteHorizontal),
-      y: rng.nextInt(tabuleiroNavio.limiteVertical),
-      eixo: gerarEixoAleatorio(),
-      navio: ContraTorpedeiro(),
-    ))) {
-      gerarContratorpedeirosMaquina(tabuleiroNavio);
-    }
-  }
-
-  void gerarSubmarinosMaquina(TabuleiroNavios tabuleiroNavio) {
-    if (!tabuleiroNavio.inserirNavio(NavioTabuleiro(
-      x: rng.nextInt(tabuleiroNavio.limiteHorizontal),
-      y: rng.nextInt(tabuleiroNavio.limiteVertical),
-      eixo: gerarEixoAleatorio(),
-      navio: Submarino(),
-    ))) {
-      gerarSubmarinosMaquina(tabuleiroNavio);
-    }
-  }
-
-  Eixo gerarEixoAleatorio() {
-    var aleatorio = rng.nextInt(50);
-    if (aleatorio % 2 == 0) {
-      return Eixo.Vertical;
-    } else {
-      return Eixo.Horizontal;
-    }
-  }
-
   TabuleiroTiros geraTabuleiroTiroMaquina(int tamanhoH, int tamanhoV) {
-    var tabuleiroTiros = TabuleiroTiros(limiteHorizontal: tamanhoH, limiteVertical: tamanhoV);
+    var tabuleiroTiros =
+        TabuleiroTiros(limiteHorizontal: tamanhoH, limiteVertical: tamanhoV);
     return tabuleiroTiros;
   }
 
-  void tiroNormalMaquina(TabuleiroTiros tabuleiroTiros) {
-    if (!tabuleiroTiros.inserirTiro(TiroTabuleiro(
-        x: rng.nextInt(tabuleiroTiros.limiteHorizontal),
-        y: rng.nextInt(tabuleiroTiros.limiteVertical),
-        tiro: TiroNormal()))) {
-      tiroNormalMaquina(tabuleiroTiros);
-    }
-  }
+  // On playing #################################################################
 
-  void tiroEspecialMaquina(TabuleiroTiros tabuleiroTiros) {
-    if (!tabuleiroTiros.inserirTiro(TiroTabuleiro(
-        x: random(1, tabuleiroTiros.limiteHorizontal - 1),
-        y: random(1, tabuleiroTiros.limiteVertical - 1),
-        tiro: TiroEspecial()))) {
-      tiroEspecialMaquina(tabuleiroTiros);
-    }
-  }
+  TabuleiroTiros tirosAutomaticos(
+      TabuleiroTiros tabuleiroTiros, List<List<String>> tabuleiroBatalha) {
+    TirosMaquina tirosMaquina = TirosMaquina();
+    InteligenciaMaquina inteligenciaMaquina = InteligenciaMaquina();
 
-  bool tiroNormalMaquinaComCoordenadas(TabuleiroTiros tabuleiroTiros, int posicaoX, int posicaoY) {
-    if (!tabuleiroTiros.inserirTiro(TiroTabuleiro(x: posicaoX, y: posicaoY, tiro: TiroNormal()))) {
-      return false;
-    }
-    return true;
-  }
-
-  void tiroEspecialMaquinaComCoordenadas(TabuleiroTiros tabuleiroTiros, int posicaoX, int posicaoY) {
-    if (!tabuleiroTiros.inserirTiro(TiroTabuleiro(x: posicaoX, y: posicaoY, tiro: TiroEspecial()))) {
-      tiroEspecialMaquina(tabuleiroTiros);
-    }
-  }
-
-  int random(min, max) {
-    return min + Random().nextInt(max - min);
-  }
-
-  List<Coordenada> nextHit(List<List<String>> tabuleiroBatalha) {
-    List<Coordenada> novosTiros = [];
-
-    for (Coordenada tiroAcertado in this.tirosAcertados) {
-      Coordenada coordenadaTestaLinha = Coordenada(x: tiroAcertado.x + 1, y: tiroAcertado.y);
-      Coordenada novoTiroLinha = Coordenada(x: tiroAcertado.x + 2, y: tiroAcertado.y);
-      Coordenada coordenadaTestaColuna = Coordenada(x: tiroAcertado.x, y: tiroAcertado.y + 1);
-      Coordenada novoTiroColuna = Coordenada(x: tiroAcertado.x, y: tiroAcertado.y + 2);
-
-      Coordenada coordenadaTestaLinhaMenos = Coordenada(x: tiroAcertado.x - 1, y: tiroAcertado.y);
-      Coordenada novoTiroLinhaMenos = Coordenada(x: tiroAcertado.x - 2, y: tiroAcertado.y);
-      Coordenada coordenadaTestaColunaMenos = Coordenada(x: tiroAcertado.x, y: tiroAcertado.y - 1);
-      Coordenada novoTiroColunaMenos = Coordenada(x: tiroAcertado.x, y: tiroAcertado.y - 2);
-
-      if (this.tirosAcertados.contains(coordenadaTestaLinha)) {
-        novosTiros.add(novoTiroLinha);
-      } else if (this.tirosAcertados.contains(coordenadaTestaColuna)) {
-        novosTiros.add(novoTiroColuna);
-      } else if (this.tirosAcertados.contains(coordenadaTestaColuna)) {
-        novosTiros.add(novoTiroColuna);
-      } else if (this.tirosAcertados.contains(coordenadaTestaLinhaMenos)) {
-        novosTiros.add(novoTiroLinhaMenos);
-      } else if (this.tirosAcertados.contains(coordenadaTestaColunaMenos)) {
-        novosTiros.add(novoTiroColunaMenos);
-      } else {
-        var tiroVIsolado = rng.nextInt(4);
-        switch (tiroVIsolado) {
-          case 1:
-            {
-              novosTiros.add(coordenadaTestaLinha);
-            }
-            break;
-          case 2:
-            {
-              novosTiros.add(coordenadaTestaColuna);
-            }
-            break;
-          case 3:
-            {
-              novosTiros.add(novoTiroLinhaMenos);
-            }
-            break;
-          case 4:
-            {
-              novosTiros.add(novoTiroColunaMenos);
-            }
-            break;
-        }
-      }
-    }
-
-    return novosTiros;
-  }
-
-  TabuleiroTiros tirosAutomaticos(TabuleiroTiros tabuleiroTiros, List<List<String>> tabuleiroBatalha) {
     var contTiros = 3;
     bool jaAtirou = false;
 
@@ -193,13 +55,15 @@ class Maquina {
       }
     }
 
-    var novosTiros = nextHit(tabuleiroBatalha);
+    var novosTiros =
+        inteligenciaMaquina.nextHit(tabuleiroBatalha, tirosAcertados);
     this.tirosAcertados = [];
 
     if (novosTiros.isNotEmpty) {
       for (var i = 0; i < novosTiros.length; i++) {
         if (contTiros > 0) {
-          bool testaTiro = tiroNormalMaquinaComCoordenadas(tabuleiroTiros, novosTiros[i].x, novosTiros[i].y);
+          bool testaTiro = tirosMaquina.tiroNormalMaquinaComCoordenadas(
+              tabuleiroTiros, novosTiros[i].x, novosTiros[i].y);
           if (testaTiro) {
             contTiros--;
             jaAtirou = true;
@@ -209,14 +73,14 @@ class Maquina {
     }
 
     if (tabuleiroTiros.tiroEspecial > 0 && usarTiroEspecial() && !jaAtirou) {
-      tiroEspecialMaquina(tabuleiroTiros);
+      tirosMaquina.tiroEspecialMaquina(tabuleiroTiros);
       tabuleiroTiros.tiroEspecial--;
       jaAtirou = true;
       return tabuleiroTiros;
     }
 
     for (var i = contTiros; i > 0; i--) {
-      tiroNormalMaquina(tabuleiroTiros);
+      tirosMaquina.tiroNormalMaquina(tabuleiroTiros);
       contTiros--;
       jaAtirou = true;
     }

@@ -20,9 +20,9 @@ class MatrizHelper<T> {
       for (int j = 0; j < matriz[i].length; j++) {
         linha += "${matriz[i][j]} ";
       }
-      print(linha + i.toString() + "\n");
+      // print(linha + i.toString() + "\n");
       linha = "";
     }
-    print("\n");
+    // print("\n");
   }
 }
