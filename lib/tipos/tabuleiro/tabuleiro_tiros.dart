@@ -14,7 +14,7 @@ class TabuleiroTiros {
   }) : this.tiros = tiros ?? [];
 
   bool inserirTiro(TiroTabuleiro tiro) {
-    if (!this._existeLocalExplodido(tiro)) {
+    if (!this.existeLocalExplodido(tiro)) {
       this.tiros.add(tiro);
       print(tiro.pontos);
       return true;
@@ -53,7 +53,7 @@ class TabuleiroTiros {
     return List.generate(this.limiteVertical, (_) => List.generate(this.limiteHorizontal, (index) => '0'));
   }
 
-  bool _existeLocalExplodido(TiroTabuleiro tiroAInserir) {
+  bool existeLocalExplodido(TiroTabuleiro tiroAInserir) {
     final coordenada = Coordenada(x: tiroAInserir.x, y: tiroAInserir.y);
 
     final locaisExplodidos = this.tiros.where((tiroJaInserido) {

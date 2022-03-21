@@ -22,18 +22,25 @@ class JogoPage extends StatelessWidget {
       onWillPop: () async => false,
       child: BaseView<JogoViewModel>(
         onInitState: (viewModel) {
-          // TODO: FECHAR STREAMS EM TODAS AS PAGINAS
           viewModel.initCommand(tabuleiroNavios);
 
-          viewModel.adicionarTiroCommand.results
-              .where((event) => event.data != null)
-              .map((result) => result.data)
-              .listen((adicionou) {
-            if (!(adicionou!)) {
+          viewModel.gameEvents.listen((event) {
+            if (event == GameStatus.TiroEspeciaisIndisponiveis) {
               return showBatalhaDialog(
                 context,
                 "Erro!",
-                "Verifique se você tem tiros especiais disponíveis ou atirou em um local válido.",
+                "Você não possui tiros especiais restantes.",
+                () {
+                  Navigator.pop(context);
+                },
+              );
+            }
+
+            if (event == GameStatus.EspacoOcupado) {
+              return showBatalhaDialog(
+                context,
+                "Erro!",
+                "Você não pode adicionar um tiro em um local já atingido.",
                 () {
                   Navigator.pop(context);
                 },
