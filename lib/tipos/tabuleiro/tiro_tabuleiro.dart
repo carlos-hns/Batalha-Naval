@@ -39,6 +39,9 @@ class TiroTabuleiro {
   }
 
   @override
+  bool operator ==(o) => o is TiroTabuleiro && this.x == o.x && this.y == o.y && this.tiro == o.tiro;
+
+  @override
   String toString() {
     return "(${this.x}, ${this.y})";
   }

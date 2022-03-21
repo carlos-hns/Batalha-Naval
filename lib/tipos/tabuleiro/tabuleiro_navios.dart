@@ -24,12 +24,70 @@ class TabuleiroNavios {
     return tabuleiro;
   }
 
+  List<List<String>> mesclarTabuleiroDeNaviosComTiros(TabuleiroNavios tabuleiro, List<List<String>> tiros) {
+    List<List<String>> mesclaNaviosETiros = tabuleiro.gerarTabuleiro();
+    for (int i = 0; i < mesclaNaviosETiros.length; i++) {
+      for (int j = 0; j < mesclaNaviosETiros[i].length; j++) {
+        if (tiros[i][j] == "X") {
+          if (mesclaNaviosETiros[i][j] != "0") {
+            mesclaNaviosETiros[i][j] = "V";
+            print("Hum, Acertou miseravi!");
+          } else {
+            mesclaNaviosETiros[i][j] = tiros[i][j];
+          }
+        }
+      }
+    }
+    mesclaNaviosETiros = this._naviosAfundados(tabuleiro, mesclaNaviosETiros);
+    return mesclaNaviosETiros;
+  }
+
+  List<List<String>> _naviosAfundados(TabuleiroNavios tabuleiroNavios, List<List<String>> mesclaNaviosETiros) {
+    final naviosAfundados = tabuleiroNavios.navios.where((navio) {
+      final pontos = navio.pontos;
+      bool foiAfundado = true;
+      pontos.forEach((ponto) {
+        if (mesclaNaviosETiros[ponto.x][ponto.y] == "V") {
+          foiAfundado = foiAfundado && true;
+        } else {
+          foiAfundado = foiAfundado && false;
+        }
+      });
+      return foiAfundado;
+    }).toList();
+
+    naviosAfundados.forEach((navio) {
+      navio.pontos.forEach((ponto) {
+        mesclaNaviosETiros[ponto.x][ponto.y] = this._tiposNaviosAfundados(navio.navio.caracterRepresentador);
+      });
+    });
+
+    return mesclaNaviosETiros;
+  }
+
+  String _tiposNaviosAfundados(String caractere) {
+    switch (caractere) {
+      case "5":
+        return "P";
+      case "4":
+        return "T";
+      case "3":
+        return "C";
+      case "2":
+        return "S";
+      default:
+        "Z";
+    }
+    return caractere;
+  }
+
   bool inserirNavio(NavioTabuleiro navio) {
     final navioEstaDentroDosLimites = navio.eixo == Eixo.Vertical
         ? this._navioEstaDentroDoLimiteVertical(navio)
         : this._navioEstaDentroDoLimiteHorizontal(navio);
 
     if (navioEstaDentroDosLimites && !this._existeOutroNavioNaPosicao(navio)) {
+      print(navio.pontos);
       this.navios.add(navio);
       return true;
     }

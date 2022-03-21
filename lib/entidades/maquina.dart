@@ -1,3 +1,4 @@
+import 'package:batalha_naval/tipos/coordenada.dart';
 import 'package:batalha_naval/tipos/navios/contra_torpedeiro.dart';
 import 'package:batalha_naval/tipos/navios/navio_tanque.dart';
 import 'package:batalha_naval/tipos/navios/porta_aviao.dart';
@@ -14,6 +15,8 @@ import 'package:batalha_naval/tipos/tiros/tiro_normal.dart';
 
 class Maquina {
   var rng = Random();
+
+  var tirosAcertados = [];
 
   TabuleiroNavios geraTabuleiroMaquina(int limiteHorizontal, int limiteVertical) {
     var tabuleiroNavio = TabuleiroNavios(limiteHorizontal: limiteHorizontal, limiteVertical: limiteVertical);
@@ -86,10 +89,6 @@ class Maquina {
 
   TabuleiroTiros geraTabuleiroTiroMaquina(int tamanhoH, int tamanhoV) {
     var tabuleiroTiros = TabuleiroTiros(limiteHorizontal: tamanhoH, limiteVertical: tamanhoV);
-    tiroNormalMaquina(tabuleiroTiros);
-    tiroNormalMaquina(tabuleiroTiros);
-    tiroEspecialMaquina(tabuleiroTiros);
-    //tiroEspecialMaquina(tabuleiroTiros);
     return tabuleiroTiros;
   }
 
@@ -111,7 +110,126 @@ class Maquina {
     }
   }
 
+  bool tiroNormalMaquinaComCoordenadas(TabuleiroTiros tabuleiroTiros, int posicaoX, int posicaoY) {
+    if (!tabuleiroTiros.inserirTiro(TiroTabuleiro(x: posicaoX, y: posicaoY, tiro: TiroNormal()))) {
+      return false;
+    }
+    return true;
+  }
+
+  void tiroEspecialMaquinaComCoordenadas(TabuleiroTiros tabuleiroTiros, int posicaoX, int posicaoY) {
+    if (!tabuleiroTiros.inserirTiro(TiroTabuleiro(x: posicaoX, y: posicaoY, tiro: TiroEspecial()))) {
+      tiroEspecialMaquina(tabuleiroTiros);
+    }
+  }
+
   int random(min, max) {
     return min + Random().nextInt(max - min);
+  }
+
+  List<Coordenada> nextHit(List<List<String>> tabuleiroBatalha) {
+    List<Coordenada> novosTiros = [];
+
+    for (Coordenada tiroAcertado in this.tirosAcertados) {
+      Coordenada coordenadaTestaLinha = Coordenada(x: tiroAcertado.x + 1, y: tiroAcertado.y);
+      Coordenada novoTiroLinha = Coordenada(x: tiroAcertado.x + 2, y: tiroAcertado.y);
+      Coordenada coordenadaTestaColuna = Coordenada(x: tiroAcertado.x, y: tiroAcertado.y + 1);
+      Coordenada novoTiroColuna = Coordenada(x: tiroAcertado.x, y: tiroAcertado.y + 2);
+
+      Coordenada coordenadaTestaLinhaMenos = Coordenada(x: tiroAcertado.x - 1, y: tiroAcertado.y);
+      Coordenada novoTiroLinhaMenos = Coordenada(x: tiroAcertado.x - 2, y: tiroAcertado.y);
+      Coordenada coordenadaTestaColunaMenos = Coordenada(x: tiroAcertado.x, y: tiroAcertado.y - 1);
+      Coordenada novoTiroColunaMenos = Coordenada(x: tiroAcertado.x, y: tiroAcertado.y - 2);
+
+      if (this.tirosAcertados.contains(coordenadaTestaLinha)) {
+        novosTiros.add(novoTiroLinha);
+      } else if (this.tirosAcertados.contains(coordenadaTestaColuna)) {
+        novosTiros.add(novoTiroColuna);
+      } else if (this.tirosAcertados.contains(coordenadaTestaColuna)) {
+        novosTiros.add(novoTiroColuna);
+      } else if (this.tirosAcertados.contains(coordenadaTestaLinhaMenos)) {
+        novosTiros.add(novoTiroLinhaMenos);
+      } else if (this.tirosAcertados.contains(coordenadaTestaColunaMenos)) {
+        novosTiros.add(novoTiroColunaMenos);
+      } else {
+        var tiroVIsolado = rng.nextInt(4);
+        switch (tiroVIsolado) {
+          case 1:
+            {
+              novosTiros.add(coordenadaTestaLinha);
+            }
+            break;
+          case 2:
+            {
+              novosTiros.add(coordenadaTestaColuna);
+            }
+            break;
+          case 3:
+            {
+              novosTiros.add(novoTiroLinhaMenos);
+            }
+            break;
+          case 4:
+            {
+              novosTiros.add(novoTiroColunaMenos);
+            }
+            break;
+        }
+      }
+    }
+
+    return novosTiros;
+  }
+
+  TabuleiroTiros tirosAutomaticos(TabuleiroTiros tabuleiroTiros, List<List<String>> tabuleiroBatalha) {
+    var contTiros = 3;
+    bool jaAtirou = false;
+
+    for (var i = 0; i < tabuleiroBatalha.length; i++) {
+      for (var j = 0; j < tabuleiroBatalha[i].length; j++) {
+        if (tabuleiroBatalha[i][j] == "V") {
+          tirosAcertados.add(Coordenada(x: i, y: j));
+        }
+      }
+    }
+
+    var novosTiros = nextHit(tabuleiroBatalha);
+    this.tirosAcertados = [];
+
+    if (novosTiros.isNotEmpty) {
+      for (var i = 0; i < novosTiros.length; i++) {
+        if (contTiros > 0) {
+          bool testaTiro = tiroNormalMaquinaComCoordenadas(tabuleiroTiros, novosTiros[i].x, novosTiros[i].y);
+          if (testaTiro) {
+            contTiros--;
+            jaAtirou = true;
+          }
+        }
+      }
+    }
+
+    if (tabuleiroTiros.tiroEspecial > 0 && usarTiroEspecial() && !jaAtirou) {
+      tiroEspecialMaquina(tabuleiroTiros);
+      tabuleiroTiros.tiroEspecial--;
+      jaAtirou = true;
+      return tabuleiroTiros;
+    }
+
+    for (var i = contTiros; i > 0; i--) {
+      tiroNormalMaquina(tabuleiroTiros);
+      contTiros--;
+      jaAtirou = true;
+    }
+
+    return tabuleiroTiros;
+  }
+
+  bool usarTiroEspecial() {
+    var aleatorio = rng.nextInt(10);
+    if (aleatorio % 2 == 0) {
+      return true;
+    } else {
+      return false;
+    }
   }
 }
