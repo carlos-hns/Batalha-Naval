@@ -16,6 +16,7 @@ class TabuleiroTiros {
   bool inserirTiro(TiroTabuleiro tiro) {
     if (!this._existeLocalExplodido(tiro)) {
       this.tiros.add(tiro);
+      print(tiro.pontos);
       return true;
     }
 
@@ -26,15 +27,26 @@ class TabuleiroTiros {
     final tabuleiro = this._gerarTabuleiroVaio();
 
     tiros.forEach((tiro) {
-      tabuleiro[tiro.x][tiro.y] = 'X';
-      tiro.pontos.forEach((coordenada) {
-        if (tiro.y >= 0 && tiro.y <= this.limiteHorizontal && tiro.x >= 0 && tiro.x <= this.limiteVertical) {
+      if (tiro.y >= 0 && tiro.y < this.limiteHorizontal && tiro.x >= 0 && tiro.x < this.limiteVertical) {
+        tabuleiro[tiro.x][tiro.y] = 'X';
+      }
+
+      this._getPontosDentroDosLimites(tiro.pontos).forEach((coordenada) {
+        if (tiro.y >= 0 && tiro.y < this.limiteHorizontal && tiro.x >= 0 && tiro.x < this.limiteVertical) {
           tabuleiro[coordenada.x][coordenada.y] = 'X';
         }
       });
     });
 
     return tabuleiro;
+  }
+
+  List<Coordenada> _getPontosDentroDosLimites(List<Coordenada> pontos) {
+    final pontosFiltrados = pontos.where((ponto) {
+      return ponto.x >= 0 && ponto.x < this.limiteHorizontal && ponto.y >= 0 && ponto.y < this.limiteVertical;
+    }).toSet();
+
+    return pontosFiltrados.toList();
   }
 
   List<List<String>> _gerarTabuleiroVaio() {
