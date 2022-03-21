@@ -19,30 +19,33 @@ class PaginaTestes extends StatelessWidget {
 
         var tabuleiroTiro = Maquina().geraTabuleiroTiroMaquina(15, 15);
         print(".");
-        print(".");
-        print(".");
+
         MatrizHelper().imprimirMatriz(tabuleiroTiro.gerarTabuleiro());
         print(".");
-        print(".");
-        print(".");
+
         var tabuleiroDeBatalha =
             tabuleiroMaquina.gerarTabuleiroComTiros(tabuleiroMaquina, tabuleiroTiro.gerarTabuleiro());
         print(".");
         Maquina().tirosAutomaticos(tabuleiroTiro, tabuleiroDeBatalha);
 
         print(".");
-        tabuleiroDeBatalha = tabuleiroMaquina.gerarTabuleiroComTiros(tabuleiroMaquina, tabuleiroTiro.gerarTabuleiro());
-        MatrizHelper().imprimirMatriz(tabuleiroDeBatalha);
-        Maquina().tirosAutomaticos(tabuleiroTiro, tabuleiroDeBatalha);
-        tabuleiroDeBatalha = tabuleiroMaquina.gerarTabuleiroComTiros(tabuleiroMaquina, tabuleiroTiro.gerarTabuleiro());
-        MatrizHelper().imprimirMatriz(tabuleiroDeBatalha);
-        Maquina().tirosAutomaticos(tabuleiroTiro, tabuleiroDeBatalha);
-        tabuleiroDeBatalha = tabuleiroMaquina.gerarTabuleiroComTiros(tabuleiroMaquina, tabuleiroTiro.gerarTabuleiro());
-        MatrizHelper().imprimirMatriz(tabuleiroDeBatalha);
-        Maquina().tirosAutomaticos(tabuleiroTiro, tabuleiroDeBatalha);
-        print(".");
-        // List<List<String>> tabuleiroMaquina2 = tabuleiroMaquina.gerarTabuleiro();
-        //tabuleiroMaquina2 = tabuleiroTiro.gerarTabuleiro();
+        for (int i = 0; i < 10; i++) {
+          tabuleiroDeBatalha =
+              tabuleiroMaquina.gerarTabuleiroComTiros(tabuleiroMaquina, tabuleiroTiro.gerarTabuleiro());
+          MatrizHelper().imprimirMatriz(tabuleiroDeBatalha);
+          Maquina().tirosAutomaticos(tabuleiroTiro, tabuleiroDeBatalha);
+          tabuleiroDeBatalha =
+              tabuleiroMaquina.gerarTabuleiroComTiros(tabuleiroMaquina, tabuleiroTiro.gerarTabuleiro());
+          MatrizHelper().imprimirMatriz(tabuleiroDeBatalha);
+          Maquina().tirosAutomaticos(tabuleiroTiro, tabuleiroDeBatalha);
+          tabuleiroDeBatalha =
+              tabuleiroMaquina.gerarTabuleiroComTiros(tabuleiroMaquina, tabuleiroTiro.gerarTabuleiro());
+          MatrizHelper().imprimirMatriz(tabuleiroDeBatalha);
+          Maquina().tirosAutomaticos(tabuleiroTiro, tabuleiroDeBatalha);
+          print(".");
+          // List<List<String>> tabuleiroMaquina2 = tabuleiroMaquina.gerarTabuleiro();
+          //tabuleiroMaquina2 = tabuleiroTiro.gerarTabuleiro();
+        } //fim do for
       },
       builder: (context, viewModel) {
         return Container();
