@@ -155,7 +155,7 @@ class JogoViewModel extends BaseViewModel {
     setStateToReady();
     final informacoesVisuais = this._extrairDadosPelaMatriz(tabuleiroDeBatalha, true);
 
-    if (this.usuarioVenceuOJogo()) {
+    if (this.maquinaVenceuOJogo()) {
       this._gameEvents.add(GameStatus.MaquinaVenceu);
     }
 

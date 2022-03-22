@@ -69,11 +69,14 @@ class JogoPage extends StatelessWidget {
                   return RankingPage();
                 },
               ));
+
+              return;
             }
 
             if (event == GameStatus.MaquinaVenceu) {
-              return showBatalhaDialog(context, "Erro!", "Você perdeu o jogo :'(", () {
-                Navigator.pushReplacement(context, MaterialPageRoute(
+              return showBatalhaDialog(context, "Erro!", "Você perdeu o jogo :'(", () async {
+                Navigator.pop(context);
+                return Navigator.pushReplacement(context, MaterialPageRoute(
                   builder: (context) {
                     return MenuPage();
                   },

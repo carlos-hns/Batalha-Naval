@@ -34,8 +34,6 @@ class Maquina {
     return tabuleiroTiros;
   }
 
-  // On playing #################################################################
-
   TabuleiroTiros tirosAutomaticos(TabuleiroTiros tabuleiroTiros, List<List<String>> tabuleiroBatalha) {
     TirosMaquina tirosMaquina = TirosMaquina();
     InteligenciaMaquina inteligenciaMaquina = InteligenciaMaquina();
@@ -54,6 +52,13 @@ class Maquina {
     var novosTiros = inteligenciaMaquina.nextHit(tabuleiroBatalha, tirosAcertados);
     this.tirosAcertados = [];
 
+    if (tabuleiroTiros.tiroEspecial > 0 && usarTiroEspecial() && !jaAtirou) {
+      tirosMaquina.tiroEspecialMaquina(tabuleiroTiros);
+      tabuleiroTiros.tiroEspecial--;
+      jaAtirou = true;
+      return tabuleiroTiros;
+    }
+
     if (novosTiros.isNotEmpty) {
       for (var i = 0; i < novosTiros.length; i++) {
         if (contTiros > 0) {
@@ -65,13 +70,6 @@ class Maquina {
           }
         }
       }
-    }
-
-    if (tabuleiroTiros.tiroEspecial > 0 && usarTiroEspecial() && !jaAtirou) {
-      tirosMaquina.tiroEspecialMaquina(tabuleiroTiros);
-      tabuleiroTiros.tiroEspecial--;
-      jaAtirou = true;
-      return tabuleiroTiros;
     }
 
     for (var i = contTiros; i > 0; i--) {
