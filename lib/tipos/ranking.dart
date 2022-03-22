@@ -11,15 +11,15 @@ class Ranking extends HiveObject {
   late String tamanhoTabuleiro;
 
   @HiveField(2)
-  late int numeroDeTirosNormais;
+  late int numeroDeTiros;
 
-  @HiveField(3)
-  late int numeroDeTirosEspeciais;
+  @HiveField(4)
+  late String data;
 
   Ranking({
     required this.nome,
     required this.tamanhoTabuleiro,
-    required this.numeroDeTirosNormais,
-    required this.numeroDeTirosEspeciais,
+    required this.numeroDeTiros,
+    required this.data,
   });
 }

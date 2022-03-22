@@ -19,8 +19,8 @@ class RankingAdapter extends TypeAdapter<Ranking> {
     return Ranking(
       nome: fields[0] as String,
       tamanhoTabuleiro: fields[1] as String,
-      numeroDeTirosNormais: fields[2] as int,
-      numeroDeTirosEspeciais: fields[3] as int,
+      numeroDeTiros: fields[2] as int,
+      data: fields[4] as String,
     );
   }
 
@@ -33,9 +33,9 @@ class RankingAdapter extends TypeAdapter<Ranking> {
       ..writeByte(1)
       ..write(obj.tamanhoTabuleiro)
       ..writeByte(2)
-      ..write(obj.numeroDeTirosNormais)
-      ..writeByte(3)
-      ..write(obj.numeroDeTirosEspeciais);
+      ..write(obj.numeroDeTiros)
+      ..writeByte(4)
+      ..write(obj.data);
   }
 
   @override

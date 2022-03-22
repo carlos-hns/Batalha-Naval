@@ -3,9 +3,12 @@ import 'package:batalha_naval/base/base_view.dart';
 import 'package:batalha_naval/componentes/common/batalha_dialog.dart';
 import 'package:batalha_naval/componentes/configuracoes/configuration_element.dart';
 import 'package:batalha_naval/componentes/tabuleiro/batalha_board.dart';
+import 'package:batalha_naval/paginas/ranking_page.dart';
+import 'package:batalha_naval/tipos/ranking.dart';
 import 'package:batalha_naval/tipos/tabuleiro/tabuleiro_navios.dart';
 import 'package:batalha_naval/view_models/jogo_view_model.dart';
 import 'package:flutter/material.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:rx_widgets/rx_widgets.dart';
 
 class JogoPage extends StatelessWidget {
@@ -45,6 +48,26 @@ class JogoPage extends StatelessWidget {
                   Navigator.pop(context);
                 },
               );
+            }
+
+            if (event == GameStatus.JogadorVenceu) {
+              Navigator.pushReplacement(context, MaterialPageRoute(
+                builder: (context) {
+                  final rankingBox = Hive.box('ranking');
+
+                  final ranking = Ranking(
+                    nome: "Carlos",
+                    tamanhoTabuleiro: "${tabuleiroNavios.limiteHorizontal}x${tabuleiroNavios.limiteVertical}",
+                    numeroDeTiros:
+                        viewModel.quantidadeDeTirosNormais + (2 - viewModel.quantidadeDeTirosEspeciaisRestantes),
+                    data: DateTime.now().toString(),
+                  );
+
+                  rankingBox.add(ranking);
+
+                  return RankingPage();
+                },
+              ));
             }
           });
         },
