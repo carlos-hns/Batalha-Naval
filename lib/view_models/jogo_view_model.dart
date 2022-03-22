@@ -11,6 +11,7 @@ import 'package:batalha_naval/tipos/tabuleiro/tabuleiro_tiros.dart';
 import 'package:batalha_naval/tipos/tabuleiro/tiro_tabuleiro.dart';
 import 'package:batalha_naval/tipos/tiros/tiro_especial.dart';
 import 'package:batalha_naval/tipos/tiros/tiro_normal.dart';
+import 'package:batalha_naval/utilidades/matriz_helper.dart';
 import 'package:injectable/injectable.dart';
 import 'package:rx_command/rx_command.dart';
 
