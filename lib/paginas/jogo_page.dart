@@ -3,6 +3,7 @@ import 'package:batalha_naval/base/base_view.dart';
 import 'package:batalha_naval/componentes/common/batalha_dialog.dart';
 import 'package:batalha_naval/componentes/configuracoes/configuration_element.dart';
 import 'package:batalha_naval/componentes/tabuleiro/batalha_board.dart';
+import 'package:batalha_naval/paginas/menu_page.dart';
 import 'package:batalha_naval/paginas/ranking_page.dart';
 import 'package:batalha_naval/tipos/ranking.dart';
 import 'package:batalha_naval/tipos/tabuleiro/tabuleiro_navios.dart';
@@ -68,6 +69,16 @@ class JogoPage extends StatelessWidget {
                   return RankingPage();
                 },
               ));
+            }
+
+            if (event == GameStatus.MaquinaVenceu) {
+              return showBatalhaDialog(context, "Erro!", "Você perdeu o jogo :'(", () {
+                Navigator.pushReplacement(context, MaterialPageRoute(
+                  builder: (context) {
+                    return MenuPage();
+                  },
+                ));
+              });
             }
           });
         },
