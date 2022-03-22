@@ -34,17 +34,17 @@ class InteligenciaMaquina {
           Coordenada(x: tiroAcertado.x, y: tiroAcertado.y - 2);
 
       if (tirosAcertados.contains(coordenadaTestaLinha) &&
-          tabuleiroBatalha[novoTiroLinha.x][novoTiroLinha.y] != "V") {
+          tabuleiroBatalha[novoTiroLinha.x][novoTiroLinha.y] != "V" && tabuleiroBatalha[novoTiroLinha.x][novoTiroLinha.y] != "X") {
         tirosCandidatos.add(novoTiroLinha);
       } else if (tirosAcertados.contains(coordenadaTestaColuna) &&
-          tabuleiroBatalha[novoTiroColuna.x][novoTiroColuna.y] != "V") {
+          tabuleiroBatalha[novoTiroColuna.x][novoTiroColuna.y] != "V" && tabuleiroBatalha[novoTiroLinha.x][novoTiroLinha.y] != "X") {
         tirosCandidatos.add(novoTiroColuna);
       } else if (tirosAcertados.contains(coordenadaTestaLinhaMenos) &&
-          tabuleiroBatalha[novoTiroLinhaMenos.x][novoTiroLinhaMenos.y] != "V") {
+          tabuleiroBatalha[novoTiroLinhaMenos.x][novoTiroLinhaMenos.y]  != "V" && tabuleiroBatalha[novoTiroLinha.x][novoTiroLinha.y] != "X" ) {
         tirosCandidatos.add(novoTiroLinhaMenos);
       } else if (tirosAcertados.contains(coordenadaTestaColunaMenos) &&
           tabuleiroBatalha[novoTiroColunaMenos.x][novoTiroColunaMenos.y] !=
-              "V") {
+              "V" && tabuleiroBatalha[novoTiroLinha.x][novoTiroLinha.y] != "X") {
         tirosCandidatos.add(novoTiroColunaMenos);
       } else {
         var tiroVIsolado = rng.nextInt(4);
@@ -74,7 +74,15 @@ class InteligenciaMaquina {
     }
     print("novos tiros:");
     print(tirosCandidatos);
+    List<Coordenada> tirosCandidatosLimpos = limpaTirosCandidatos(tirosCandidatos);
+    print(tirosCandidatosLimpos);
 
     return tirosCandidatos;
   }
+
+  List<Coordenada> limpaTirosCandidatos(List<Coordenada> tirosCandidatos) {
+    
+  }
 }
+
+
