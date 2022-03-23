@@ -13,9 +13,11 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:rx_widgets/rx_widgets.dart';
 
 class JogoPage extends StatelessWidget {
+  String nome;
   TabuleiroNavios tabuleiroNavios;
 
   JogoPage({
+    required this.nome,
     required this.tabuleiroNavios,
     Key? key,
   }) : super(key: key);
@@ -57,7 +59,7 @@ class JogoPage extends StatelessWidget {
                   final rankingBox = Hive.box('ranking');
 
                   final ranking = Ranking(
-                    nome: "Carlos",
+                    nome: this.nome,
                     tamanhoTabuleiro: "${tabuleiroNavios.limiteHorizontal}x${tabuleiroNavios.limiteVertical}",
                     numeroDeTiros:
                         viewModel.quantidadeDeTirosNormais + (2 - viewModel.quantidadeDeTirosEspeciaisRestantes),
