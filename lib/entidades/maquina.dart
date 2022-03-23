@@ -9,12 +9,10 @@ import 'dart:math';
 class Maquina {
   var rng = Random();
 
-  var tirosAcertados = [];
+  List<Coordenada> tirosAcertados = [];
 
-  TabuleiroNavios geraTabuleiroMaquina(
-      int limiteHorizontal, int limiteVertical) {
-    var tabuleiroNavio = TabuleiroNavios(
-        limiteHorizontal: limiteHorizontal, limiteVertical: limiteVertical);
+  TabuleiroNavios geraTabuleiroMaquina(int limiteHorizontal, int limiteVertical) {
+    var tabuleiroNavio = TabuleiroNavios(limiteHorizontal: limiteHorizontal, limiteVertical: limiteVertical);
 
     NaviosMaquina naviosMaquina = NaviosMaquina();
     naviosMaquina.gerarPortaAviaoMaquina(tabuleiroNavio);
@@ -32,15 +30,13 @@ class Maquina {
   }
 
   TabuleiroTiros geraTabuleiroTiroMaquina(int tamanhoH, int tamanhoV) {
-    var tabuleiroTiros =
-        TabuleiroTiros(limiteHorizontal: tamanhoH, limiteVertical: tamanhoV);
+    var tabuleiroTiros = TabuleiroTiros(limiteHorizontal: tamanhoH, limiteVertical: tamanhoV);
     return tabuleiroTiros;
   }
 
   // On playing #################################################################
 
-  TabuleiroTiros tirosAutomaticos(
-      TabuleiroTiros tabuleiroTiros, List<List<String>> tabuleiroBatalha) {
+  TabuleiroTiros tirosAutomaticos(TabuleiroTiros tabuleiroTiros, List<List<String>> tabuleiroBatalha) {
     TirosMaquina tirosMaquina = TirosMaquina();
     InteligenciaMaquina inteligenciaMaquina = InteligenciaMaquina();
 
@@ -55,15 +51,14 @@ class Maquina {
       }
     }
 
-    var novosTiros =
-        inteligenciaMaquina.nextHit(tabuleiroBatalha, tirosAcertados);
+    var novosTiros = inteligenciaMaquina.nextHit(tabuleiroBatalha, tirosAcertados);
     this.tirosAcertados = [];
 
     if (novosTiros.isNotEmpty) {
       for (var i = 0; i < novosTiros.length; i++) {
         if (contTiros > 0) {
-          bool testaTiro = tirosMaquina.tiroNormalMaquinaComCoordenadas(
-              tabuleiroTiros, novosTiros[i].x, novosTiros[i].y);
+          bool testaTiro =
+              tirosMaquina.tiroNormalMaquinaComCoordenadas(tabuleiroTiros, novosTiros[i].x, novosTiros[i].y);
           if (testaTiro) {
             contTiros--;
             jaAtirou = true;
@@ -96,6 +91,4 @@ class Maquina {
       return false;
     }
   }
-
-  
 }
