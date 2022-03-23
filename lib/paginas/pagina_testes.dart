@@ -18,17 +18,14 @@ class PaginaTestes extends StatelessWidget {
         MatrizHelper().imprimirMatriz(tabuleiroMaquina.gerarTabuleiro());
 
         var tabuleiroTiro = Maquina().geraTabuleiroTiroMaquina(15, 15);
-        print(".");
 
         MatrizHelper().imprimirMatriz(tabuleiroTiro.gerarTabuleiro());
-        print(".");
 
         var tabuleiroDeBatalha =
             tabuleiroMaquina.mesclarTabuleiroDeNaviosComTiros(tabuleiroMaquina, tabuleiroTiro.gerarTabuleiro());
-        print(".");
+
         Maquina().tirosAutomaticos(tabuleiroTiro, tabuleiroDeBatalha);
 
-        print(".");
         tabuleiroDeBatalha =
             tabuleiroMaquina.mesclarTabuleiroDeNaviosComTiros(tabuleiroMaquina, tabuleiroTiro.gerarTabuleiro());
         MatrizHelper().imprimirMatriz(tabuleiroDeBatalha);
@@ -41,7 +38,7 @@ class PaginaTestes extends StatelessWidget {
             tabuleiroMaquina.mesclarTabuleiroDeNaviosComTiros(tabuleiroMaquina, tabuleiroTiro.gerarTabuleiro());
         MatrizHelper().imprimirMatriz(tabuleiroDeBatalha);
         Maquina().tirosAutomaticos(tabuleiroTiro, tabuleiroDeBatalha);
-        print(".");
+        
         // List<List<String>> tabuleiroMaquina2 = tabuleiroMaquina.gerarTabuleiro();
         //tabuleiroMaquina2 = tabuleiroTiro.gerarTabuleiro();
       },

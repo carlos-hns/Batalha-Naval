@@ -31,7 +31,6 @@ class TabuleiroNavios {
         if (tiros[i][j] == "X") {
           if (mesclaNaviosETiros[i][j] != "0") {
             mesclaNaviosETiros[i][j] = "V";
-            print("Hum, Acertou miseravi!");
           } else {
             mesclaNaviosETiros[i][j] = tiros[i][j];
           }

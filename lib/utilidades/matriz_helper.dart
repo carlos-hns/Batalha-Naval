@@ -1,5 +1,6 @@
 class MatrizHelper<T> {
-  int verificarQuantidadeDeElementos(List<List<T>> matriz, bool Function(T) matcher) {
+  int verificarQuantidadeDeElementos(
+      List<List<T>> matriz, bool Function(T) matcher) {
     int quantidadeDeElementos = 0;
 
     for (int i = 0; i < matriz.length; i++) {
@@ -20,9 +21,9 @@ class MatrizHelper<T> {
       for (int j = 0; j < matriz[i].length; j++) {
         linha += "${matriz[i][j]} ";
       }
-      // print(linha + i.toString() + "\n");
+      print(linha + i.toString() + "\n");
       linha = "";
     }
-    // print("\n");
+    print("\n");
   }
 }
