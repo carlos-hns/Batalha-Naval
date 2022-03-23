@@ -38,7 +38,7 @@ class InsercaoNaviosViewModel extends BaseViewModel {
   List<String> eixos = ["Horizontal", "Vertical"];
   String eixoSelecionado = "Horizontal";
 
-  String nome = "";
+  String nome = "Não definido";
 
   late TabuleiroNavios _tabuleiroNavios = TabuleiroNavios(limiteHorizontal: 0, limiteVertical: 0);
   TabuleiroNavios get tabuleiro => this._tabuleiroNavios;

@@ -142,6 +142,9 @@ class InsercaoNaviosPage extends StatelessWidget {
                           decoration: InputDecoration(
                             border: InputBorder.none,
                           ),
+                          onChanged: (nome) {
+                            viewModel.atualizarNomeCommand(nome);
+                          },
                         ),
                       ),
                     ),

@@ -28,6 +28,7 @@ class JogoPage extends StatelessWidget {
       onWillPop: () async => false,
       child: BaseView<JogoViewModel>(
         onInitState: (viewModel) {
+          print(this.nome);
           viewModel.initCommand(tabuleiroNavios);
 
           viewModel.gameEvents.listen((event) {
