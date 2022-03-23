@@ -5,7 +5,8 @@ class InteligenciaMaquina {
   var rng = Random();
   var tirosAcertados = [];
 
-  List<Coordenada> nextHit(List<List<String>> tabuleiroBatalha, List<Coordenada> tirosAcertados) {
+  List<Coordenada> nextHit(
+      List<List<String>> tabuleiroBatalha, List<Coordenada> tirosAcertados) {
     List<Coordenada> tirosCandidatos = [];
     print(tirosAcertados);
     print("tirosAcertados");
@@ -14,15 +15,23 @@ class InteligenciaMaquina {
     // tirosCandidatos.add(Coordenada(x: 9, y: 1));
 
     for (Coordenada tiroAcertado in tirosAcertados) {
-      Coordenada coordenadaTestaLinha = Coordenada(x: tiroAcertado.x + 1, y: tiroAcertado.y);
-      Coordenada novoTiroLinha = Coordenada(x: tiroAcertado.x + 2, y: tiroAcertado.y);
-      Coordenada coordenadaTestaColuna = Coordenada(x: tiroAcertado.x, y: tiroAcertado.y + 1);
-      Coordenada novoTiroColuna = Coordenada(x: tiroAcertado.x, y: tiroAcertado.y + 2);
+      Coordenada coordenadaTestaLinha =
+          Coordenada(x: tiroAcertado.x + 1, y: tiroAcertado.y);
+      Coordenada novoTiroLinha =
+          Coordenada(x: tiroAcertado.x + 2, y: tiroAcertado.y);
+      Coordenada coordenadaTestaColuna =
+          Coordenada(x: tiroAcertado.x, y: tiroAcertado.y + 1);
+      Coordenada novoTiroColuna =
+          Coordenada(x: tiroAcertado.x, y: tiroAcertado.y + 2);
 
-      Coordenada coordenadaTestaLinhaMenos = Coordenada(x: tiroAcertado.x - 1, y: tiroAcertado.y);
-      Coordenada novoTiroLinhaMenos = Coordenada(x: tiroAcertado.x - 2, y: tiroAcertado.y);
-      Coordenada coordenadaTestaColunaMenos = Coordenada(x: tiroAcertado.x, y: tiroAcertado.y - 1);
-      Coordenada novoTiroColunaMenos = Coordenada(x: tiroAcertado.x, y: tiroAcertado.y - 2);
+      Coordenada coordenadaTestaLinhaMenos =
+          Coordenada(x: tiroAcertado.x - 1, y: tiroAcertado.y);
+      Coordenada novoTiroLinhaMenos =
+          Coordenada(x: tiroAcertado.x - 2, y: tiroAcertado.y);
+      Coordenada coordenadaTestaColunaMenos =
+          Coordenada(x: tiroAcertado.x, y: tiroAcertado.y - 1);
+      Coordenada novoTiroColunaMenos =
+          Coordenada(x: tiroAcertado.x, y: tiroAcertado.y - 2);
 
       // if (tirosAcertados.contains(coordenadaTestaLinha) &&
       //     tabuleiroBatalha[novoTiroLinha.x][novoTiroLinha.y] != "V" &&
@@ -46,26 +55,38 @@ class InteligenciaMaquina {
       // }
 
       if (coordenadaTestaLinha.x < tabuleiroBatalha.length &&
-          tabuleiroBatalha[coordenadaTestaLinha.x][coordenadaTestaLinha.y] != "V" &&
-          tabuleiroBatalha[coordenadaTestaLinha.x][coordenadaTestaLinha.y] != "X") {
+          tabuleiroBatalha[coordenadaTestaLinha.x][coordenadaTestaLinha.y] !=
+              "V" &&
+          tabuleiroBatalha[coordenadaTestaLinha.x][coordenadaTestaLinha.y] !=
+              "X") {
         tirosCandidatos.add(coordenadaTestaLinha);
       }
 
       if (coordenadaTestaColunaMenos.y >= 0 &&
-          tabuleiroBatalha[coordenadaTestaColunaMenos.x][coordenadaTestaColunaMenos.y] != "V" &&
-          tabuleiroBatalha[coordenadaTestaColunaMenos.x][coordenadaTestaColunaMenos.y] != "X") {
+          tabuleiroBatalha[coordenadaTestaColunaMenos.x]
+                  [coordenadaTestaColunaMenos.y] !=
+              "V" &&
+          tabuleiroBatalha[coordenadaTestaColunaMenos.x]
+                  [coordenadaTestaColunaMenos.y] !=
+              "X") {
         tirosCandidatos.add(coordenadaTestaColunaMenos);
       }
 
       if (coordenadaTestaColuna.y < tabuleiroBatalha.length &&
-          tabuleiroBatalha[coordenadaTestaColuna.x][coordenadaTestaColuna.y] != "V" &&
-          tabuleiroBatalha[coordenadaTestaColuna.x][coordenadaTestaColuna.y] != "V") {
+          tabuleiroBatalha[coordenadaTestaColuna.x][coordenadaTestaColuna.y] !=
+              "V" &&
+          tabuleiroBatalha[coordenadaTestaColuna.x][coordenadaTestaColuna.y] !=
+              "V") {
         tirosCandidatos.add(coordenadaTestaColuna);
       }
 
       if (coordenadaTestaLinhaMenos.x >= 0 &&
-          tabuleiroBatalha[coordenadaTestaLinhaMenos.x][coordenadaTestaLinhaMenos.y] != "V" &&
-          tabuleiroBatalha[coordenadaTestaLinhaMenos.x][coordenadaTestaLinhaMenos.y] != "X") {
+          tabuleiroBatalha[coordenadaTestaLinhaMenos.x]
+                  [coordenadaTestaLinhaMenos.y] !=
+              "V" &&
+          tabuleiroBatalha[coordenadaTestaLinhaMenos.x]
+                  [coordenadaTestaLinhaMenos.y] !=
+              "X") {
         tirosCandidatos.add(coordenadaTestaLinhaMenos);
       }
       // var tiroVIsolado = rng.nextInt(4);
@@ -98,10 +119,10 @@ class InteligenciaMaquina {
     // List<Coordenada> tirosCandidatosLimpos = limpaTirosCandidatos(tirosCandidatos);
     // print(tirosCandidatosLimpos);
 
-    return limpaTirosCandidatos(tirosCandidatos, tabuleiroBatalha);
+    return tirosCandidatos;
   }
 
   // List<Coordenada> limpaTirosCandidatos(List<Coordenada> tirosCandidatos) {
-    
+
   // }
 }
