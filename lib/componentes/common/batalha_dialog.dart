@@ -5,10 +5,13 @@ showBatalhaDialog(BuildContext context, String title, String description, Functi
   return showDialog(
     context: context,
     builder: (context) {
-      return BatalhaDialog(
-        title: title,
-        description: description,
-        onTap: onTap,
+      return WillPopScope(
+        onWillPop: () async => false,
+        child: BatalhaDialog(
+          title: title,
+          description: description,
+          onTap: onTap,
+        ),
       );
     },
   );

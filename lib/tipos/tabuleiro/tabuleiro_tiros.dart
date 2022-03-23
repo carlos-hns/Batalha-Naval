@@ -1,5 +1,6 @@
 import 'package:batalha_naval/tipos/coordenada.dart';
 import 'package:batalha_naval/tipos/tabuleiro/tiro_tabuleiro.dart';
+import 'package:batalha_naval/utilidades/matriz_helper.dart';
 
 class TabuleiroTiros {
   late int limiteVertical;
@@ -16,7 +17,7 @@ class TabuleiroTiros {
   bool inserirTiro(TiroTabuleiro tiro) {
     if (!this.existeLocalExplodido(tiro)) {
       this.tiros.add(tiro);
-      print(tiro.pontos);
+      print(tiro);
       return true;
     }
 
@@ -37,7 +38,7 @@ class TabuleiroTiros {
         }
       });
     });
-
+    MatrizHelper().imprimirMatriz(tabuleiro);
     return tabuleiro;
   }
 

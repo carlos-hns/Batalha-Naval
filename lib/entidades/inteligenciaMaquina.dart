@@ -50,16 +50,19 @@ class InteligenciaMaquina {
           tabuleiroBatalha[coordenadaTestaLinha.x][coordenadaTestaLinha.y] != "X") {
         tirosCandidatos.add(coordenadaTestaLinha);
       }
+
       if (coordenadaTestaColunaMenos.y >= 0 &&
           tabuleiroBatalha[coordenadaTestaColunaMenos.x][coordenadaTestaColunaMenos.y] != "V" &&
           tabuleiroBatalha[coordenadaTestaColunaMenos.x][coordenadaTestaColunaMenos.y] != "X") {
         tirosCandidatos.add(coordenadaTestaColunaMenos);
       }
+
       if (coordenadaTestaColuna.y < tabuleiroBatalha.length &&
           tabuleiroBatalha[coordenadaTestaColuna.x][coordenadaTestaColuna.y] != "V" &&
           tabuleiroBatalha[coordenadaTestaColuna.x][coordenadaTestaColuna.y] != "V") {
         tirosCandidatos.add(coordenadaTestaColuna);
       }
+
       if (coordenadaTestaLinhaMenos.x >= 0 &&
           tabuleiroBatalha[coordenadaTestaLinhaMenos.x][coordenadaTestaLinhaMenos.y] != "V" &&
           tabuleiroBatalha[coordenadaTestaLinhaMenos.x][coordenadaTestaLinhaMenos.y] != "X") {

@@ -18,16 +18,24 @@ import 'package:rx_command/rx_command.dart';
 enum GameStatus {
   TiroEspeciaisIndisponiveis,
   EspacoOcupado,
+  JogadorVenceu,
+  MaquinaVenceu,
 }
 
 @injectable
 class JogoViewModel extends BaseViewModel {
   int quantidadeDeTirosNormais = 0;
   int quantidadeDeTirosEspeciaisRestantes = 2;
+
   int submarinosAbatidos = 0;
   int contratorpedeirosAbatidos = 0;
   int naviosTanqueAbatidos = 0;
   int portaAvioesAbatidos = 0;
+
+  int submarinosAbatidosMaquina = 0;
+  int contratorpedeirosAbatidosMaquina = 0;
+  int naviosTanqueAbatidosMaquina = 0;
+  int portaAvioesAbatidosMaquina = 0;
 
   int _tirosNormaisRealizados = 0;
   int _tirosEspecaisRealizados = 0;
@@ -99,6 +107,7 @@ class JogoViewModel extends BaseViewModel {
       }
 
       this._tiros.add(tiroTabuleiro);
+      this.quantidadeDeTirosNormais++;
       this._tirosNormaisRealizados++;
 
       if (_tirosNormaisRealizados == 3) {
@@ -144,7 +153,13 @@ class JogoViewModel extends BaseViewModel {
         .mesclarTabuleiroDeNaviosComTiros(this._tabuleiroNavios, this._tabuleiroTirosMaquina.gerarTabuleiro());
 
     setStateToReady();
-    return this._extrairDadosPelaMatriz(tabuleiroDeBatalha);
+    final informacoesVisuais = this._extrairDadosPelaMatriz(tabuleiroDeBatalha, true);
+
+    if (this.maquinaVenceuOJogo()) {
+      this._gameEvents.add(GameStatus.MaquinaVenceu);
+    }
+
+    return informacoesVisuais;
   }
 
   List<BoardTileInfo> informacoesVisuaisTabuleiroMaquina() {
@@ -154,7 +169,28 @@ class JogoViewModel extends BaseViewModel {
         .mesclarTabuleiroDeNaviosComTiros(this._tabuleiroNaviosMaquina, tabuleiroTirosUsuario);
 
     setStateToReady();
-    return this._extrairDadosPelaMatriz(tabuleiroDeBatalha);
+
+    final informacoesVisuais = this._extrairDadosPelaMatriz(tabuleiroDeBatalha, false);
+
+    if (this.usuarioVenceuOJogo()) {
+      this._gameEvents.add(GameStatus.JogadorVenceu);
+    }
+
+    return informacoesVisuais;
+  }
+
+  bool usuarioVenceuOJogo() {
+    return submarinosAbatidos == 4 &&
+        contratorpedeirosAbatidos == 3 &&
+        naviosTanqueAbatidos == 2 &&
+        portaAvioesAbatidos == 1;
+  }
+
+  bool maquinaVenceuOJogo() {
+    return submarinosAbatidosMaquina == 4 &&
+        contratorpedeirosAbatidosMaquina == 3 &&
+        naviosTanqueAbatidosMaquina == 2 &&
+        portaAvioesAbatidosMaquina == 1;
   }
 
   TiroTabuleiro _getTiro(Coordenada coordenada) {
@@ -180,7 +216,7 @@ class JogoViewModel extends BaseViewModel {
     }
   }
 
-  List<BoardTileInfo> _extrairDadosPelaMatriz(List<List<String>> matriz) {
+  List<BoardTileInfo> _extrairDadosPelaMatriz(List<List<String>> matriz, bool ehMaquina) {
     List<BoardTileInfo> informacoeesVisuais = [];
 
     int contadorS = 0;
@@ -217,10 +253,22 @@ class JogoViewModel extends BaseViewModel {
       }
     }
 
-    this.submarinosAbatidos = contadorS ~/ 2;
-    this.portaAvioesAbatidos = contadorP ~/ 5;
-    this.naviosTanqueAbatidos = contadorT ~/ 4;
-    this.contratorpedeirosAbatidos = contadorC ~/ 3;
+    if (!ehMaquina) {
+      this.submarinosAbatidos = contadorS ~/ 2;
+      this.portaAvioesAbatidos = contadorP ~/ 5;
+      this.naviosTanqueAbatidos = contadorT ~/ 4;
+      this.contratorpedeirosAbatidos = contadorC ~/ 3;
+    } else {
+      this.submarinosAbatidosMaquina = contadorS ~/ 2;
+      this.portaAvioesAbatidosMaquina = contadorP ~/ 5;
+      this.naviosTanqueAbatidosMaquina = contadorT ~/ 4;
+      this.contratorpedeirosAbatidosMaquina = contadorC ~/ 3;
+
+      print(submarinosAbatidosMaquina);
+      print(portaAvioesAbatidosMaquina);
+      print(naviosTanqueAbatidosMaquina);
+      print(contratorpedeirosAbatidosMaquina);
+    }
 
     return informacoeesVisuais;
   }

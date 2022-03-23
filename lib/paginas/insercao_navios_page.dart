@@ -118,6 +118,44 @@ class InsercaoNaviosPage extends StatelessWidget {
               ),
               Visibility(
                 visible: viewModel.configurationStep == ConfigurationStep.Insercao,
+                child: Column(
+                  children: [
+                    Text(
+                      "Digite seu nome:",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 12.0,
+                      ),
+                    ),
+                    SizedBox(
+                      height: 15.0,
+                    ),
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 50.0),
+                      child: Container(
+                        padding: EdgeInsets.symmetric(horizontal: 10.0),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(15.0),
+                          color: Colors.white,
+                        ),
+                        child: TextField(
+                          decoration: InputDecoration(
+                            border: InputBorder.none,
+                          ),
+                          onChanged: (nome) {
+                            viewModel.atualizarNomeCommand(nome);
+                          },
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 15.0,
+                    ),
+                  ],
+                ),
+              ),
+              Visibility(
+                visible: viewModel.configurationStep == ConfigurationStep.Insercao,
                 child: ConfigurationElement(
                   label: "Tipo de Navio",
                   options: viewModel.tiposDeNavio,
@@ -165,7 +203,10 @@ class InsercaoNaviosPage extends StatelessWidget {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => JogoPage(tabuleiroNavios: viewModel.tabuleiro),
+                          builder: (context) => JogoPage(
+                            nome: viewModel.nome,
+                            tabuleiroNavios: viewModel.tabuleiro,
+                          ),
                         ),
                       );
                     },

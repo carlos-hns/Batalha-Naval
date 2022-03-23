@@ -38,6 +38,8 @@ class InsercaoNaviosViewModel extends BaseViewModel {
   List<String> eixos = ["Horizontal", "Vertical"];
   String eixoSelecionado = "Horizontal";
 
+  String nome = "Não definido";
+
   late TabuleiroNavios _tabuleiroNavios = TabuleiroNavios(limiteHorizontal: 0, limiteVertical: 0);
   TabuleiroNavios get tabuleiro => this._tabuleiroNavios;
   List<NavioTabuleiro> get navios => this._tabuleiroNavios.navios;
@@ -51,6 +53,9 @@ class InsercaoNaviosViewModel extends BaseViewModel {
   late RxCommand<String, void> _alterarEixoCommand;
   RxCommand<String, void> get alterarEixoCommand => this._alterarEixoCommand;
 
+  late RxCommand<String, void> _atualizarNomeCommand;
+  RxCommand<String, void> get atualizarNomeCommand => this._atualizarNomeCommand;
+
   late RxCommand<ConfigurationStep, void> _alterarStepCommand;
   RxCommand<ConfigurationStep, void> get alterarStepCommand => this._alterarStepCommand;
 
@@ -61,6 +66,7 @@ class InsercaoNaviosViewModel extends BaseViewModel {
     this._alterarTamanhoDoTabuleiroCommand = RxCommand.createSync(this._onAlterarTamanhoDoTabuleiro);
     this._alterarTipoNavioCommand = RxCommand.createSyncNoResult(this._onAlterarTipoNavio);
     this._alterarEixoCommand = RxCommand.createSyncNoResult(this._onAlterarEixo);
+    this._atualizarNomeCommand = RxCommand.createSyncNoResult(this._onAtualizarNome);
     this._alterarStepCommand = RxCommand.createSyncNoResult(this._onAlterarStep);
     this._adicionarNavioCommand = RxCommand.createSync(this._onAdicionarNavio);
 
@@ -78,6 +84,10 @@ class InsercaoNaviosViewModel extends BaseViewModel {
 
   void _onAlterarEixo(String eixoSelecionado) {
     this.eixoSelecionado = eixoSelecionado;
+  }
+
+  void _onAtualizarNome(String nome) {
+    this.nome = nome;
   }
 
   void _onAlterarStep(ConfigurationStep step) {

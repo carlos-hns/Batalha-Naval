@@ -4,6 +4,7 @@ import 'package:batalha_naval/paginas/menu_page.dart';
 import 'package:batalha_naval/tipos/ranking.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:intl/intl.dart';
 
 class RankingPage extends StatefulWidget {
   const RankingPage({Key? key}) : super(key: key);
@@ -79,12 +80,15 @@ class _RankingPageState extends State<RankingPage> {
                       child: Column(
                         children: elements10x10
                             .map(
-                              (element) => Text(
-                                "${element.nome} - Tiros Normais: ${element.numeroDeTirosNormais} - Tiros Especiais: ${element.numeroDeTirosEspeciais}",
-                                style: TextStyle(
-                                  color: TextColor,
-                                  fontSize: 20.0,
-                                  fontWeight: FontWeight.bold,
+                              (element) => Padding(
+                                padding: EdgeInsets.only(bottom: 5.0),
+                                child: Text(
+                                  "${element.nome} - Pontuação: ${element.numeroDeTiros} - Data: ${DateFormat("dd/MM/yyyy hh:mm").format(DateTime.parse(element.data))}",
+                                  style: TextStyle(
+                                    color: TextColor,
+                                    fontSize: 20.0,
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                 ),
                               ),
                             )
@@ -125,12 +129,15 @@ class _RankingPageState extends State<RankingPage> {
                       child: Column(
                         children: elements15x15
                             .map(
-                              (element) => Text(
-                                "${element.nome} - Tiros Normais: ${element.numeroDeTirosNormais} - Tiros Especiais: ${element.numeroDeTirosEspeciais}",
-                                style: TextStyle(
-                                  color: TextColor,
-                                  fontSize: 20.0,
-                                  fontWeight: FontWeight.bold,
+                              (element) => Padding(
+                                padding: EdgeInsets.only(bottom: 5.0),
+                                child: Text(
+                                  "${element.nome} - Pontuação: ${element.numeroDeTiros} - Data: ${DateFormat("dd/MM/yyyy hh:mm").format(DateTime.parse(element.data))}",
+                                  style: TextStyle(
+                                    color: TextColor,
+                                    fontSize: 20.0,
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                 ),
                               ),
                             )
@@ -152,8 +159,7 @@ class _RankingPageState extends State<RankingPage> {
     final List<Ranking> filtered = elements.where((element) => element.tamanhoTabuleiro == "10x10").toList();
 
     filtered.sort((a, b) {
-      return a.numeroDeTirosEspeciais.compareTo(b.numeroDeTirosEspeciais) +
-          a.numeroDeTirosNormais.compareTo(b.numeroDeTirosNormais);
+      return a.numeroDeTiros.compareTo(b.numeroDeTiros);
     });
 
     return filtered;
@@ -164,8 +170,7 @@ class _RankingPageState extends State<RankingPage> {
     final List<Ranking> filtered = elements.where((element) => element.tamanhoTabuleiro == "15x15").toList();
 
     filtered.sort((a, b) {
-      return a.numeroDeTirosEspeciais.compareTo(b.numeroDeTirosEspeciais) +
-          a.numeroDeTirosNormais.compareTo(b.numeroDeTirosNormais);
+      return a.numeroDeTiros.compareTo(b.numeroDeTiros);
     });
 
     return filtered;
