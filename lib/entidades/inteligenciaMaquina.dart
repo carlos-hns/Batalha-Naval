@@ -74,15 +74,15 @@ class InteligenciaMaquina {
     }
     print("novos tiros:");
     print(tirosCandidatos);
-    List<Coordenada> tirosCandidatosLimpos = limpaTirosCandidatos(tirosCandidatos);
-    print(tirosCandidatosLimpos);
+    // List<Coordenada> tirosCandidatosLimpos = limpaTirosCandidatos(tirosCandidatos);
+    // print(tirosCandidatosLimpos);
 
     return tirosCandidatos;
   }
 
-  List<Coordenada> limpaTirosCandidatos(List<Coordenada> tirosCandidatos) {
+  // List<Coordenada> limpaTirosCandidatos(List<Coordenada> tirosCandidatos) {
     
-  }
+  // }
 }
 
 
